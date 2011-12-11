@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.papercut.silken</groupId>
+  <artifactId>silken</artifactId>
+  <packaging>jar</packaging>
+  <version>2011-12-11</version>
+  <name>silken</name>
+  <url>https://github.com/codedance/silken</url>
+  <description>Silken - a nicer tasting Soy Tofu (Google Closure Templates)</description>
+
+  <licenses>
+    <license>
+      <name>Apache 2</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+      <comments>A business-friendly OSS license</comments>
+    </license>
+  </licenses>
+
+  <organization>
+    <name>PaperCut Software International Pty. Ltd.</name>
+    <url>http://www.papercut.com/</url>
+  </organization>
+
+  <repositories>
+    <repository>
+      <id>codedance on Github</id>
+      <url>https://github.com/codedance/maven-repository/raw/master</url>
+    </repository>
+  </repositories>
+
+  <!-- Deploy into our local target directory and then manually manage from there. -->
+  <distributionManagement>
+    <repository>
+      <id>target.repo</id>
+      <name>Local target directory</name>
+      <url>file://target</url>
+    </repository>
+  </distributionManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.google.template</groupId>
+      <artifactId>soy</artifactId>
+      <version>2011-14-10</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish</groupId>
+      <artifactId>javax.servlet</artifactId>
+      <version>3.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>
