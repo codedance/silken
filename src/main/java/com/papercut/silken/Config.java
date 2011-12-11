@@ -41,7 +41,7 @@ public class Config {
         runtimeGlobalsProvider = null;
         localeResolver = new AcceptHeaderLocaleResolver();
         modelResolver = new RequestAttributeModelResolver();
-        searchPath = "$CLASSPATH:$WEBROOT/templates:$WEBROOT/templates";
+        searchPath = "$CLASSPATH:$WEBROOT/templates:$WEBROOT/WEB-INF/templates";
         showStackTracesInErrors = true;
     }
 
