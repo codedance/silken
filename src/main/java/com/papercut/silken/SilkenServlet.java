@@ -37,19 +37,19 @@ import com.google.template.soy.data.SoyMapData;
 /**
  * The main Silken servlet class. This is designed to be put on a url path like /soy.  Requests supported include:
  * 
- * /soy/com.myorg.templates.myTemplate
+ * /soy/com.myorg.mytemplates.myTemplate
  *      Template Forward ("render")
  * 
- * /soy/_precompile/com.myorg.templates
- *      "precompile" all templates in a given namespace.
+ * /soy/_precompile/com.myorg.mytemplates
+ *      Pre-compiles all templates in the given namespace and returns 200 OK on success.
  * 
- * /soy/_flush/com.myorg.templates
- *      "flush" compiled templates from memory in a given namespace.
+ * /soy/_flush/com.myorg.mytemplates
+ *      Flushes any cached compiled templates in the given namespace forcing a recompile on next access.
  * 
  * /soy/_flushAll
- *      "flushAll" compiled templates from all referenced/loaded namespaces.
+ *      Flushes all cahnged compiled templates from all referenced/loaded namespaces.
  * 
- * /soy/_js[serial]/com.myorg.templates.js
+ * /soy/_js[serial]/com.myorg.mytemplates.js
  *      "provideAsJavaScript" returns a rendered JS file for all client-side templates,  where "[serial]" is an 
  *      optional number/component that can be used for cache busting.
  *      
@@ -106,6 +106,9 @@ public class SilkenServlet extends HttpServlet {
         String disableCaching = servletConfig.getInitParameter("disableCaching");
         if (disableCaching != null) {
             config.setDisableCaching(disableCaching.startsWith("1") || disableCaching.toUpperCase().startsWith("Y"));
+        }
+        if (System.getProperty("silken.disableCaching") != null) {
+        	config.setDisableCaching(true);
         }
         
         String sharedNamespaces = servletConfig.getInitParameter("sharedNamespaces");
