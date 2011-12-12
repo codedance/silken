@@ -45,6 +45,7 @@ public class RequestAttributeModelResolver implements ModelResolver {
         if (model instanceof Map) {
             modelMap = (Map<String, ?>) model;
         } else {
+            // FUTURE: Supported nested pojo's.
             modelMap = Utils.pojoToMap(model);
         }
 
