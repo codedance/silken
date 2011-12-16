@@ -161,7 +161,7 @@ public class NamespaceSet {
 
         // Shared namespaces.
         for (String ns : config.getSharedNameSpaces()) {
-            List<URL> sharedSoyFiles = fileSetResolver.filesFromNamespace(searchPath, ns, SOY_EXTENSION);
+            List<URL> sharedSoyFiles = fileSetResolver.filesFromNamespace(searchPath, ns, suffix);
             for (URL url : sharedSoyFiles) {
                 builder.add(url);
             }

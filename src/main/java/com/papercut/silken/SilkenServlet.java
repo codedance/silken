@@ -57,7 +57,7 @@ import com.google.template.soy.data.SoyMapData;
  * 
  * showStackTracesInErrors - Set to "true" to show stack traces in the browser/response. Default: false
  * 
- * disableCaching - Set to "true" to turn off caching. May help when authoring templates. Default: false
+ * disableCaching - Set to "true" to turn off caching. Helps when authoring templates (i.e. live refresh). Default: false
  * 
  * sharedNamespaces - A comma separated list of namespaces shared (available) to all templates. Default: "shared"
  * 
@@ -105,7 +105,7 @@ public class SilkenServlet extends HttpServlet {
 
         String disableCaching = servletConfig.getInitParameter("disableCaching");
         if (disableCaching != null) {
-            config.setDisableCaching(disableCaching.startsWith("1") || disableCaching.toUpperCase().startsWith("Y"));
+            config.setDisableCaching(isValueTrue(disableCaching));
         }
         if (System.getProperty("silken.disableCaching") != null) {
         	config.setDisableCaching(true);
@@ -171,8 +171,7 @@ public class SilkenServlet extends HttpServlet {
 
         String stackTraces = servletConfig.getInitParameter("showStackTracesInErrors");
         if (stackTraces != null) {
-            if (stackTraces.equals("0") || stackTraces.toUpperCase().startsWith("N")
-                    || stackTraces.toUpperCase().startsWith("F")) {
+            if (isValueFalse(stackTraces)) {
                 config.setShowStackTracesInErrors(false);
             } else {
                 config.setShowStackTracesInErrors(true);
@@ -184,8 +183,8 @@ public class SilkenServlet extends HttpServlet {
         	config.setSearchPath(searchPath);
         }
 
-        // Store a reference config in our context.
-        getServletContext().setAttribute("config", config);
+        // Store a reference config in our context so external code can modify.
+        getServletContext().setAttribute("silken.config", config);
         
         // Do we have some namespaces defined to precompile?
         String namespaces = servletConfig.getInitParameter("precompileNamespaces");
@@ -306,6 +305,18 @@ public class SilkenServlet extends HttpServlet {
     private String namespaceFromPath(String path) {
         final int slashPos = path.indexOf('/');
         return path.substring(slashPos + 1);
+    }
+    
+    private boolean isValueTrue(String value) {
+        value = Strings.nullToEmpty(value).trim().toLowerCase();
+        // true, 1 or yes.
+        return (value.startsWith("t") || value.equals("1") || value.startsWith("y"));
+    }
+    
+    private boolean isValueFalse(String value) {
+        value = Strings.nullToEmpty(value).trim().toLowerCase();
+        // false, 0 or no
+        return (value.startsWith("f") || value.equals("0") || value.startsWith("n"));
     }
     
 }

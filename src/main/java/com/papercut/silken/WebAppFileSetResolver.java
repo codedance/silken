@@ -38,7 +38,7 @@ public class WebAppFileSetResolver implements FileSetResolver {
 
         List<URL> resourcesList = new ArrayList<URL>();
 
-        for (String path : searchPath.split("[;:]")) {
+        for (String path : searchPath.split("[;:,]")) {
             path = path.trim();
             if (CLASSPATH_VAR.equals(path)) {
                 resourcesList.addAll(listResourcesFromClasspath(namespace, suffix));
