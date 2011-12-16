@@ -183,8 +183,8 @@ The model may either be:
 ```java
 public class BoatDisplayController {
 
-@Path("/boats/sailing/{sailNumber}")
-@View("/soy/products.boat.sailingBoatView")
+    @Path("/boats/sailing/{sailNumber}")
+    @View("/soy/products.boat.sailingBoatView")
 	public SailBoat showSailingBoat(@PathParam("sailNumber") String sailNumber) {
 		// Validate and fetch the SailBoat POJO from data store
         // ...
