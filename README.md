@@ -1,11 +1,14 @@
 SILKEN - A nicer tasting Soy Tofu (Google Closure Templates)
 ======
 
-Silken wraps [Google Closure
-Templates](http://code.google.com/closure/templates/) (Soy Templates) in a
-managed servlet environment simplifying template use in *push-MVC*
-environments.  Silken encourages convention over configuration, and promotes a
-set standard structure for template management.
+Silken is the easiest way to drop in [Google Closure
+Templates](http://code.google.com/closure/templates/) into your Java web
+application.
+
+Silken wraps Google Closure Templates (Soy Templates) in a managed servlet
+environment simplifying template use in *push-MVC* environments.  Silken
+encourages convention over configuration, and promotes a set standard structure
+for template management.
 
 <a href="http://www.flickr.com/photos/fotoosvanrobin/5776783857/" 
     title="by FotoosVanRobin on Flickr">
@@ -14,7 +17,7 @@ set standard structure for template management.
 
 ##Motivation
 Google Closure Templates (aka Soy Templates) is a fantastic language neutral
-tempting language.  It has an advanced syntax, great localization support,
+templating system.  It has an advanced syntax, great localization support,
 enforces good practice such as parameter documentation, and allows the same
 templates to be used on both client and server.
 
@@ -54,6 +57,7 @@ setup or using via Maven/Ivy.
   recompile remotely via management URLs.
 * **Globals:** Conventions for defining both compile-time and run-time globals.
 * **Translation:** Conventions for message bundle/file management.
+* **Simple Setup:** Maven/Ivy support with simple servlet configuration.
 
 
 
@@ -159,10 +163,10 @@ The general approach is as follows:
 
 1. The browser hits your controller code (e.g. servlet code, or an MVC
    framework like [HtmlEasy](http://code.google.com/p/htmleasy/), or
-[SpringMVC](http://static.springsource.org/spring/docs/2.0.x/reference/mvc.html).
+  [SpringMVC](http://static.springsource.org/spring/docs/2.0.x/reference/mvc.html).
 2. Your controller code generates the the data parameters need by the template
-   by constructing a model.  e.g. it may query a database and make a Boat()
-class.
+   by constructing a model.  e.g. it may query a database and make a ```Boat()```
+   class.
 3. The model is set as a request attribute.
 4. Finally, the controller code forwards/dispatches the request across to
    Silken to render the template.
@@ -170,6 +174,7 @@ class.
 Data parameters (the model) are passed to the templates via a [request
 attribute](http://docs.oracle.com/javaee/1.3/api/javax/servlet/ServletRequest.html).
 The model may either be:
+
 * A POJO
 * A map of key-value pairs (```Map<String, ?>```)
 * An instance of
@@ -177,22 +182,6 @@ The model may either be:
 (if you wish to couple your controller logic with Soy)
 
 **Examples:**
-
-*Using [HtmlEasy](http://code.google.com/p/htmleasy/) in a nice-URL RESTful style:*
-
-```java
-public class BoatDisplayController {
-
-    @Path("/boats/sailing/{sailNumber}")
-    @View("/soy/products.boat.sailingBoatView")
-	public SailBoat showSailingBoat(@PathParam("sailNumber") String sailNumber) {
-		// Validate and fetch the SailBoat POJO from data store
-        // ...
-		return datastore.fetchSailingBoat(sailNumber);
-	}
-
-}
-```
 
 *Using a simple servlet:*
 
@@ -215,6 +204,22 @@ public class SimpleBoatServlet extends HttpServlet {
 		RequestDispatcher rd = getServletContext().getRequestDispatcher("/soy/products.boat.sailingBoatView");
 		rd.forward(req, resp);
 	}
+}
+```
+
+*Using [HtmlEasy](http://code.google.com/p/htmleasy/) in a nice-URL JAX-RS RESTful style:*
+
+```java
+public class BoatDisplayController {
+
+    @Path("/boats/sailing/{sailNumber}")
+    @View("/soy/products.boat.sailingBoatView")
+	public SailBoat showSailingBoat(@PathParam("sailNumber") String sailNumber) {
+		// Validate and fetch the SailBoat POJO from data store
+        // ...
+		return datastore.fetchSailingBoat(sailNumber);
+	}
+
 }
 ```
 
@@ -305,6 +310,7 @@ name of your class that implements
 ###Run-time Globals (Advanced):
 Run-time globals are injected into the model on every template render request.
 Reasons for using run-time globals include:
+
 * Passing in a user name so it's available in the header on every page.
 
 Run-time globals can only be defined in code by an implementation of ```com.papercut.silken.RuntimeGlobalsProvider```.  This interface gives you access to the ```HTTPServletRequest```.  To define, set the ```runtimeGlobalsProvider``` servlet init parameter to a fully qualified name of your class that implements ```com.papercut.silken.RuntimeGlobalsProvider```.
@@ -349,7 +355,7 @@ disabled with one of two ways:
 *Note:* For obvious reasons, it's not a good idea to run in this mode in
 production!
 
-##Maven Support
+##Maven/Ivy Support
 
 Silken (and its dependency Google Closure Templates) are hosted in a Maven
 repository.
@@ -444,6 +450,11 @@ Config config = (Config) servletContext.getAttribute("silken.config");
 config.setRuntimeGlobalsProvider(myGlobalsProvider);
 ```
 
+##Supported Environments
+
+Silken will run in any standard Servlet hosting environment, including [Google
+App Engine](http://code.google.com/appengine/).
+
 ##Future
 
 Silken's development is supported by [PaperCut
@@ -454,6 +465,7 @@ features please submit them as issues. A few ideas:
 * Maybe a way of publishing multiple namespaces into one JavaScript file.
 * Supported nested POJO's by flattening into a dotted notation like
   "parent.child"
+* Lock down management URLs to set client IPs.
 
 
 ##Why is the project called "Silken"?
