@@ -6,10 +6,16 @@ Templates](http://code.google.com/closure/templates/) (Soy Templates) in a
 managed servlet environment simplifying template use and management in 
 *push-MVC* environments.
 
+
 Silken wraps Google Closure Templates (Soy Templates) in a managed servlet
 environment simplifying template use and name space management in a push-MVC
 environment.  Silken encourages convention 
 over configuration, and promotes a set standard structure for template management.
+
+<a href="http://www.flickr.com/photos/fotoosvanrobin/5776783857/" 
+    title="by FotoosVanRobin on Flickr">
+    <img src="http://farm6.staticflickr.com/5227/5776783857_02dbeb4d1b_m.jpg">
+</a>
 
 ##Motivation
 Google Closure Templates (aka Soy Templates) is a fantastic language neutral
@@ -35,7 +41,7 @@ can be quickly integrated into a new or existing Java web project via a simple
 servlet mapping.  See the installation section to find out more about manual
 setup or using via Maven/Ivy.
 
-##Siklen’s Benefits
+##Siklen's Benefits
 
 * **Loose Coupling:** Clear separation between controller code, models and
   template rendering (views).
@@ -59,7 +65,7 @@ setup or using via Maven/Ivy.
 ##How To Use
 
 Before reading this section you should already be familiar with [Google Closure
-Template’s
+Template's
 documentation](http://code.google.com/closure/templates/docs/overview.html) and
 the concept of [template
 namespaces](http://code.google.com/closure/templates/docs/helloworld_java.html).
@@ -233,7 +239,7 @@ discussed in detail below.
 ##Message Bundles and Translation
 
 ###Message Files
-One of Google Closure Templates most powerful features is it’s first-class
+One of Google Closure Templates most powerful features is it's first-class
 support for [message
 translations](http://code.google.com/closure/templates/docs/translation.html).
 Silken offers a set of conventions to help with message file management.
@@ -304,7 +310,7 @@ name of your class that implements
 ###Run-time Globals (Advanced):
 Run-time globals are injected into the model on every template render request.
 Reasons for using run-time globals include:
-* Passing in a user name so it’s available in the header on every page.
+* Passing in a user name so it's available in the header on every page.
 
 Run-time globals can only be defined in code by an implementation of ```com.papercut.silken.RuntimeGlobalsProvider```.  This interface gives you access to the ```HTTPServletRequest```.  To define, set the ```runtimeGlobalsProvider``` servlet init parameter to a fully qualified name of your class that implements ```com.papercut.silken.RuntimeGlobalsProvider```.
 
@@ -345,7 +351,7 @@ disabled with one of two ways:
    ```-Dsilken.disableCaching``` as a VM argument in your IDE launcher.
 2. By setting the servlet init-parameter ```disableCaching```.
 
-*Note:* For obvious reasons, it’s not a good idea to run in this mode in
+*Note:* For obvious reasons, it's not a good idea to run in this mode in
 production!
 
 ##Maven Support
@@ -445,20 +451,20 @@ config.setRuntimeGlobalsProvider(myGlobalsProvider);
 
 ##Future
 
-Silken’s development is supported by [PaperCut
+Silken's development is supported by [PaperCut
 Software](http://www.papercut.com/) (makers of print management software) and
-is use in production.  It’s been actively developed.  If you have any ideas for
+is use in production.  It's been actively developed.  If you have any ideas for
 features please submit them as issues. A few ideas:
 
 * Maybe a way of publishing multiple namespaces into one JavaScript file.
-* Supported nested POJO’s by flattening into a dotted notation like
+* Supported nested POJO's by flattening into a dotted notation like
   "parent.child"
 
 
 ##Why is the project called "Silken"?
 
-Google Closure Templates is also referred to as Soy Templates.  You’ll find
-references to Soy and Tofu throughout the project’s class names.  Silken is a
+Google Closure Templates is also referred to as Soy Templates.  You'll find
+references to Soy and Tofu throughout the project's class names.  Silken is a
 type of smooth fine Tofu.
 
 
