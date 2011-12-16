@@ -3,14 +3,9 @@ SILKEN - A nicer tasting Soy Tofu (Google Closure Templates)
 
 Silken wraps [Google Closure
 Templates](http://code.google.com/closure/templates/) (Soy Templates) in a
-managed servlet environment simplifying template use and management in 
-*push-MVC* environments.
-
-
-Silken wraps Google Closure Templates (Soy Templates) in a managed servlet
-environment simplifying template use and name space management in a push-MVC
-environment.  Silken encourages convention 
-over configuration, and promotes a set standard structure for template management.
+managed servlet environment simplifying template use in *push-MVC*
+environments.  Silken encourages convention over configuration, and promotes a
+set standard structure for template management.
 
 <a href="http://www.flickr.com/photos/fotoosvanrobin/5776783857/" 
     title="by FotoosVanRobin on Flickr">
