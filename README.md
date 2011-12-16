@@ -1,11 +1,14 @@
 SILKEN - A nicer tasting Soy Tofu (Google Closure Templates)
 ======
 
-Silken wraps [Google Closure
-Templates](http://code.google.com/closure/templates/) (Soy Templates) in a
-managed servlet environment simplifying template use in *push-MVC*
-environments.  Silken encourages convention over configuration, and promotes a
-set standard structure for template management.
+Silken is the easiest way to drop in [Google Closure
+Templates](http://code.google.com/closure/templates/) into your Java web
+application.
+
+Silken wraps Google Closure Templates (Soy Templates) in a managed servlet
+environment simplifying template use in *push-MVC* environments.  Silken
+encourages convention over configuration, and promotes a set standard structure
+for template management.
 
 <a href="http://www.flickr.com/photos/fotoosvanrobin/5776783857/" 
     title="by FotoosVanRobin on Flickr">
@@ -14,7 +17,7 @@ set standard structure for template management.
 
 ##Motivation
 Google Closure Templates (aka Soy Templates) is a fantastic language neutral
-tempting language.  It has an advanced syntax, great localization support,
+templating system.  It has an advanced syntax, great localization support,
 enforces good practice such as parameter documentation, and allows the same
 templates to be used on both client and server.
 
@@ -54,6 +57,7 @@ setup or using via Maven/Ivy.
   recompile remotely via management URLs.
 * **Globals:** Conventions for defining both compile-time and run-time globals.
 * **Translation:** Conventions for message bundle/file management.
+* **Simple Setup:** Maven/Ivy support with simple servlet configuration.
 
 
 
@@ -178,22 +182,6 @@ The model may either be:
 
 **Examples:**
 
-*Using [HtmlEasy](http://code.google.com/p/htmleasy/) in a nice-URL RESTful style:*
-
-```java
-public class BoatDisplayController {
-
-    @Path("/boats/sailing/{sailNumber}")
-    @View("/soy/products.boat.sailingBoatView")
-	public SailBoat showSailingBoat(@PathParam("sailNumber") String sailNumber) {
-		// Validate and fetch the SailBoat POJO from data store
-        // ...
-		return datastore.fetchSailingBoat(sailNumber);
-	}
-
-}
-```
-
 *Using a simple servlet:*
 
 ```java
@@ -215,6 +203,22 @@ public class SimpleBoatServlet extends HttpServlet {
 		RequestDispatcher rd = getServletContext().getRequestDispatcher("/soy/products.boat.sailingBoatView");
 		rd.forward(req, resp);
 	}
+}
+```
+
+*Using [HtmlEasy](http://code.google.com/p/htmleasy/) in a nice-URL JAX-RS RESTful style:*
+
+```java
+public class BoatDisplayController {
+
+    @Path("/boats/sailing/{sailNumber}")
+    @View("/soy/products.boat.sailingBoatView")
+	public SailBoat showSailingBoat(@PathParam("sailNumber") String sailNumber) {
+		// Validate and fetch the SailBoat POJO from data store
+        // ...
+		return datastore.fetchSailingBoat(sailNumber);
+	}
+
 }
 ```
 
@@ -349,7 +353,7 @@ disabled with one of two ways:
 *Note:* For obvious reasons, it's not a good idea to run in this mode in
 production!
 
-##Maven Support
+##Maven/Ivy Support
 
 Silken (and its dependency Google Closure Templates) are hosted in a Maven
 repository.
@@ -443,6 +447,11 @@ import com.papercut.silken.Config;
 Config config = (Config) servletContext.getAttribute("silken.config");
 config.setRuntimeGlobalsProvider(myGlobalsProvider);
 ```
+
+##Supported Environments
+
+Silken will run in any standard Servlet hosting environment, including [Google
+App Engine](http://code.google.com/appengine/).
 
 ##Future
 
