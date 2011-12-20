@@ -48,23 +48,34 @@ public class NamespaceSet {
                     if (locale == null) {
                         return SoyMsgBundle.EMPTY;
                     }
-
-                    final String suffix = locale.toString() + MSG_EXTENSION;
+                    
                     final FileSetResolver fileSetResolver = config.getFileSetResolver();
                     final String searchPath = config.getSearchPath();
                     final List<URL> msgURLs = Lists.newArrayList();
-
                     SoyMsgBundleHandler msgBundleHandler = new SoyMsgBundleHandler(new XliffMsgPlugin());
 
-                    // Shared namespace
-                    for (String ns : config.getSharedNameSpaces()) {
-                        List<URL> sharedMsgFiles = fileSetResolver.filesFromNamespace(searchPath, ns, suffix);
-                        msgURLs.addAll(sharedMsgFiles);
-                    }
+                    
+                    // Try full form first, then drop back to country only.
+                    List<String> suffixes = Lists.newArrayList(
+                            locale.toString() + MSG_EXTENSION, 
+                            locale.getLanguage() + MSG_EXTENSION
+                            );
 
-                    // Namespace files
-                    List<URL> msgFiles = fileSetResolver.filesFromNamespace(config.getSearchPath(), namespace, suffix);
-                    msgURLs.addAll(msgFiles);
+                    for (String suffix : suffixes) {
+                        // Shared namespace
+                        for (String ns : config.getSharedNameSpaces()) {
+                            List<URL> sharedMsgFiles = fileSetResolver.filesFromNamespace(searchPath, ns, suffix);
+                            msgURLs.addAll(sharedMsgFiles);
+                        }
+                        // Namespace files
+                        List<URL> msgFiles = fileSetResolver.filesFromNamespace(config.getSearchPath(), namespace,
+                                suffix);
+                        msgURLs.addAll(msgFiles);
+                        
+                        if (msgURLs.size() > 0) {
+                            break;
+                        }
+                    }
 
                     // Convert URLs to MsgBundels
                     final List<SoyMsgBundle> msgBundles = new ArrayList<SoyMsgBundle>(msgURLs.size());

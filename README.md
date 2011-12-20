@@ -264,7 +264,9 @@ For example:
 
 Again a single messages file per namespace/locale is only a recommendation.
 Silken will endeavor to source all ```*.[locale].xlf``` files located within
-the namespace.
+the namespace. If it can't match a file using the full language_COUNTRY format
+it will revert continue searching at the wider language-only level (e.g. pt_BR
+will match ```messages-pt.xlf``` if ```message-pt_BR.xlf``` does not exist.
 
 ###Locale Selection
 By default, Silken selects the locale based on the Accept-Language header.
@@ -325,18 +327,23 @@ in a file with a ```*.js.soy``` extension (as apposed to just ```*.soy```) are
 published as compiled JavaScript so they can included JavaScript resources on a
 page.  The URL to request JavaScript templates for a given namespace is:
 
-    /soy/_js[serial]/[namespace].js
+    /soy/js/[serial]/[locale]/[namespace].js
 
 
 Where:
 
-* ```[serial]``` - an optional component that can be used for cache busting.
+* ```[serial]``` - a mandatory component that can be used for cache busting.
  For example this may be a data or version number that increments every time a
  new version is deployed.
-* ```[namespace]``` - the namespace.  All templates defined in 
- ```*.js.soy``` files will be rendered into the request.
+* ```[locale]``` - an optional component that denotes the locale (in Java
+  string format like pt_BR, en, de, etc.) used to compile the template.  If
+[locale] is not defined, the locale is selected using the accept-header or as
+implemented by the ```localeResolver``` (see below).
+* ```[namespace]``` - the namespace.  All templates defined in ```*.js.soy```
+  files will be rendered into the request.
 
-An example URL: ```http://myserver.com/soy/_js20111206/user.js```
+An example URL: ```http://myserver.com/soy/js/20111208/de/myproject.mytemplates.js```
+   
 
 *Note:* JavaScript files are served up with a cache-control header setting the
 cache time to 30-days. Using the cache busting ```[serial]``` is the best way
@@ -355,7 +362,22 @@ disabled with one of two ways:
 *Note:* For obvious reasons, it's not a good idea to run in this mode in
 production!
 
-##Maven/Ivy Support
+##Installation
+
+Silken is a single zero-dependency JAR (other than Closure Templates of course)
+and can be quickly integrated into a new or existing Java web project via a
+servlet mapping. To install:
+ 
+###Manual Install
+Add the
+[soy-[version].jar](http://code.google.com/p/closure-templates/downloads/list)
+and the ```silken-[version].jar``` file onto your project's class path. The
+latest version of silken is:
+
+[silken-20111220.jar](https://github.com/codedance/maven-repository/blob/master/com/papercut/silken/silken/2011-12-20/silken-2011-12-20.jar)
+
+
+###Maven/Ivy Install
 
 Silken (and its dependency Google Closure Templates) are hosted in a Maven
 repository.
@@ -374,13 +396,13 @@ Artifact:
 ```
 <groupId>com.papercut.silken</groupId>
 <artifactId>silken</artifactId>
-<version>2011-12-11</version>
+<version>2011-12-20</version>
 ```
 
 
 *Note:* Please check the repository for the latest version ID.
 
-##Servlet Configuration Init Parameters
+###Servlet Configuration Init Parameters
 
 Silken has the following servlet init parameters to support advanced
 configuration. They are usually defined in your ```web.xml``` file as follows,
@@ -453,7 +475,8 @@ config.setRuntimeGlobalsProvider(myGlobalsProvider);
 ##Supported Environments
 
 Silken will run in any standard Servlet hosting environment, including [Google
-App Engine](http://code.google.com/appengine/).
+App Engine](http://code.google.com/appengine/). Siklen is written to work with
+the latest version of Soy Templates
 
 ##Future
 

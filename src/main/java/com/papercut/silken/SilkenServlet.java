@@ -49,9 +49,11 @@ import com.google.template.soy.data.SoyMapData;
  * /soy/_flushAll
  *      Flushes all cahnged compiled templates from all referenced/loaded namespaces.
  * 
- * /soy/_js[serial]/com.myorg.mytemplates.js
+ * /soy/js/[serial]/[locale]/com.myorg.mytemplates.js
  *      "provideAsJavaScript" returns a rendered JS file for all client-side templates,  where "[serial]" is an 
- *      optional number/component that can be used for cache busting.
+ *      a number/component that can be used for cache busting, [locale] is an optional component denoted the locale.  If
+ *      [locale] is not defined, the locale is selected using the accept-header or as implemented by the localeResolver
+ *      (see below).
  *      
  * Servlet init configuration options include:
  * 
@@ -223,21 +225,9 @@ public class SilkenServlet extends HttpServlet {
             // Path is pathInfo minus leading slash to make it easier to work with.
             final String path = pathInfo.substring(1);
 
-            // Any paths starting with an underscore may/will be a special command.
+            // Any paths starting with an underscore may/will be a special management command.
             if (path.startsWith("_")) {
                 
-                if (path.startsWith("_js")) {
-                    String namespace = namespaceFromPath(path);
-                    if (namespace.endsWith(".js")) {
-                        namespace = namespace.substring(0, namespace.length() - 3);
-                    }
-                    final Locale locale = config.getLocaleResolver().resolveLocale(req);
-                    resp.setContentType(JS_CONTENT_TYPE);
-                    resp.setHeader("Cache-Control", "max-age=" + Long.toString(config.getJavaScriptCacheMaxAge()));
-                    resp.getWriter().print(templateRenderer.provideAsJavaScript(namespace, locale));
-                    return;
-                }
-
                 if (path.startsWith("_precompile/")) {
                     templateRenderer.precompile(namespaceFromPath(path));
                     return;
@@ -253,21 +243,49 @@ public class SilkenServlet extends HttpServlet {
                     return;
                 }
                 
-            } else {
-
-                final Locale locale = config.getLocaleResolver().resolveLocale(req);
-                final String templateName = path;
+            }
                 
-                SoyMapData model = config.getModelResolver().resolveModel(req);
-                if (config.getRuntimeGlobalsProvider() != null) {
-                    SoyMapData globals = config.getRuntimeGlobalsProvider().getGlobals(req);
-                    model = Utils.mergeSoyMapData(model, globals);
+            // If starts with js/ then we're requested templates as JavaScript 
+            // Format : js/[serial]/[optional:locale]/namespace[.js]
+            if (path.startsWith("js/")) {
+                Locale locale = null;
+                
+                String namespace = namespaceFromPath(path);
+                if (namespace.endsWith(".js")) {
+                    namespace = namespace.substring(0, namespace.length() - 3);
                 }
                 
-                resp.setContentType(HTML_CONTENT_TYPE); // FUTURE: A mime type resolver?
-                resp.getWriter().print(templateRenderer.render(templateName, model, locale));
+                String[] components = path.split("/");
+                if (components.length == 3) {
+                    locale = config.getLocaleResolver().resolveLocale(req);
+                } else if (components.length == 4) {
+                    locale = Utils.stringToLocale(components[2]);
+                } else {
+                    throw new RuntimeException(
+                            "Request not in the format: /soy/js/[serial]/[optional:locale]/namespace.js" 
+                            );
+                }
+
+                resp.setContentType(JS_CONTENT_TYPE);
+                resp.setHeader("Cache-Control", "max-age=" + Long.toString(config.getJavaScriptCacheMaxAge()));
+                resp.getWriter().print(templateRenderer.provideAsJavaScript(namespace, locale));
                 return;
             }
+
+
+            final Locale locale = config.getLocaleResolver().resolveLocale(req);
+            final String templateName = path;
+            
+            SoyMapData model = config.getModelResolver().resolveModel(req);
+            if (config.getRuntimeGlobalsProvider() != null) {
+                SoyMapData globals = config.getRuntimeGlobalsProvider().getGlobals(req);
+                model = Utils.mergeSoyMapData(model, globals);
+            }
+            
+            resp.setContentType(HTML_CONTENT_TYPE); // FUTURE: A mime type resolver?
+            resp.getWriter().print(templateRenderer.render(templateName, model, locale));
+            return;
+
 
         } catch (Exception e) {
             error(req, resp, e);
@@ -303,7 +321,7 @@ public class SilkenServlet extends HttpServlet {
     }
     
     private String namespaceFromPath(String path) {
-        final int slashPos = path.indexOf('/');
+        final int slashPos = path.lastIndexOf('/');
         return path.substring(slashPos + 1);
     }
     
