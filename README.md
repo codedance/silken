@@ -26,7 +26,7 @@ templates to be used on both client and server.
 Google Closure Templates does not provide a clear set of standards for
 organizing and structuring your project.  For example it provides little
 guidance on managing namepsaces, shared resource, file naming conventions,
-caching and methods of integrating with existing tools.  Skilen wraps Google
+caching and methods of integrating with existing tools.  Silken wraps Google
 Closure Templates in a nice consumable form.
 
 Silken was initially developed to compliment the
