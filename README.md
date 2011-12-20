@@ -39,7 +39,7 @@ can be quickly integrated into a new or existing Java web project via a simple
 servlet mapping.  See the installation section to find out more about manual
 setup or using via Maven/Ivy.
 
-##Siklen's Benefits
+##Silken's Benefits
 
 * **Loose Coupling:** Clear separation between controller code, models and
   template rendering (views).
@@ -475,8 +475,8 @@ config.setRuntimeGlobalsProvider(myGlobalsProvider);
 ##Supported Environments
 
 Silken will run in any standard Servlet hosting environment, including [Google
-App Engine](http://code.google.com/appengine/). Siklen is written to work with
-the latest version of Soy Templates
+App Engine](http://code.google.com/appengine/). Silken is written to work with
+the latest version of Soy Templates.
 
 ##Future
 
