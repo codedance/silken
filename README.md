@@ -374,7 +374,7 @@ Add the
 and the ```silken-[version].jar``` file onto your project's class path. The
 latest version of silken is:
 
-[silken-20111220.jar](https://github.com/codedance/maven-repository/blob/master/com/papercut/silken/silken/2011-12-20/silken-2011-12-20.jar)
+***[silken-20111220.jar](https://github.com/codedance/maven-repository/raw/master/com/papercut/silken/silken/2011-12-20/silken-2011-12-20.jar)***
 
 
 ###Maven/Ivy Install
