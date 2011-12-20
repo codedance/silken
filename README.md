@@ -164,7 +164,7 @@ The general approach is as follows:
 1. The browser hits your controller code (e.g. servlet code, or an MVC
    framework like [HtmlEasy](http://code.google.com/p/htmleasy/), or
   [SpringMVC](http://static.springsource.org/spring/docs/2.0.x/reference/mvc.html).
-2. Your controller code generates the the data parameters need by the template
+2. Your controller code generates the data parameters need by the template
    by constructing a model.  e.g. it may query a database and make a ```Boat()```
    class.
 3. The model is set as a request attribute.
