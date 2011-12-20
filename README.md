@@ -47,7 +47,7 @@ setup or using via Maven/Ivy.
   Servlet forward/dispatch.
 * **Convention over Configuration:** Clear conventions for file placement and
   naming conventions.
-* **Managed namespaces:** both isolated and shared namespaces.
+* **Managed namespaces:** Both isolated and shared namespaces.
 * **Caching:** Compiled templates are cached while JVM memory is available.
 * **Auto Publish as JavaScript:** Expose selected templates as JavaScript (i.e.
   use the same templates on the client as on the server).
@@ -149,8 +149,8 @@ Example: ```templates/products/summaryViews.soy```
 ###Step 4: Rendering template in your controller logic
 
 Templates are rendered by forwarding (dispatching) the request from your
-controller code across to the Silken Servlet.  The dispatched URL will be in
-the format:
+controller code across to the Silken Servlet.  The target/forwarded URL will be
+in the format:
 
     /soy/[namespace.templateName]
 
@@ -163,10 +163,10 @@ The general approach is as follows:
 
 1. The browser hits your controller code (e.g. servlet code, or an MVC
    framework like [HtmlEasy](http://code.google.com/p/htmleasy/), or
-  [SpringMVC](http://static.springsource.org/spring/docs/2.0.x/reference/mvc.html).
-2. Your controller code generates the data parameters need by the template
-   by constructing a model.  e.g. it may query a database and make a ```Boat()```
-   class.
+  [SpringMVC](http://static.springsource.org/spring/docs/2.0.x/reference/mvc.html) ).
+2. Your controller code generates the data parameters that will be consumed by 
+   the template by constructing a "model".  e.g. it may query a database 
+   and make ```Boat()``` POJO class.
 3. The model is set as a request attribute.
 4. Finally, the controller code forwards/dispatches the request across to
    Silken to render the template.
@@ -223,9 +223,9 @@ public class BoatDisplayController {
 }
 ```
 
-*Note:* There is no relationship between the dispatch URL used to request a
-template and the name or path of the ```*.soy``` file.  Although, like with
-public Classes and ```*.java files```, there is often a one-to-one relationship
+*Note:* There is no relationship between the dispatch URL used to render a
+template, and the name or path of the ```*.soy``` file.  Although, like with
+public Classes and ```*.java``` files, there is often a one-to-one relationship
 between a template and a ```*.soy``` file, this is not always the case.
 Multiple templates can exist in the one ```*.soy``` file.
 
@@ -255,8 +255,8 @@ For example:
 
     templates/shared/footer.soy
     templates/shared/header.soy
-    templates/shared/messages.fr_FR.xlf
-    templates/shared/messages.de_DE.xlf
+    templates/shared/messages.pt_BR.xlf
+    templates/shared/messages.de.xlf
 
     templates/products/summaryViews.soy
     templates/products/messages.fr_FR.xlf
@@ -265,11 +265,11 @@ For example:
 Again a single messages file per namespace/locale is only a recommendation.
 Silken will endeavor to source all ```*.[locale].xlf``` files located within
 the namespace. If it can't match a file using the full language_COUNTRY format
-it will revert continue searching at the wider language-only level (e.g. pt_BR
-will match ```messages-pt.xlf``` if ```message-pt_BR.xlf``` does not exist.
+it will revert to searching at the wider language-only level (e.g. pt_BR will
+match ```messages-pt.xlf``` if ```message-pt_BR.xlf``` does not exist.
 
 ###Locale Selection
-By default, Silken selects the locale based on the Accept-Language header.
+By default, Silken selects the locale based on the *Accept-Language* header.
 [ServletRequest.getLocale()](http://docs.oracle.com/javaee/1.4/api/javax/servlet/ServletRequest.html).
 You can change this behaviour by pointing the ```localeResolver``` servlet init
 parameter to a new class that implements
@@ -324,8 +324,9 @@ be used on both the client and the server.  Advanced web development
 technologies such as ajax, push state, and pjax make the re-use of the same
 template on both the client and the server very attractive.  Templates defined
 in a file with a ```*.js.soy``` extension (as apposed to just ```*.soy```) are
-published as compiled JavaScript so they can included JavaScript resources on a
-page.  The URL to request JavaScript templates for a given namespace is:
+published as compiled JavaScript so they can included/consumed as a JavaScript 
+resources on the client.  The URL to request the compiled templates (templates 
+in ```*.js.soy``` files)  for a given namespace is:
 
     /soy/js/[serial]/[locale]/[namespace].js
 
@@ -355,8 +356,8 @@ To speed up template development and editing, Silken may be run with caching
 disabled ensuring templates are recompiled on every request.  Caching may be
 disabled with one of two ways:
 
-1. By setting a system variable silken.disableCaching.  For example, by adding
-   ```-Dsilken.disableCaching``` as a VM argument in your IDE launcher.
+1. By setting a system variable ```silken.disableCaching```.  For example, by 
+   adding ```-Dsilken.disableCaching``` as a VM argument in your IDE launcher.
 2. By setting the servlet init-parameter ```disableCaching```.
 
 *Note:* For obvious reasons, it's not a good idea to run in this mode in
@@ -374,7 +375,7 @@ Add the
 and the ```silken-[version].jar``` file onto your project's class path. The
 latest version of silken is:
 
-***[silken-20111220.jar](https://github.com/codedance/maven-repository/raw/master/com/papercut/silken/silken/2011-12-20/silken-2011-12-20.jar)***
+***[silken-2011-12-20.jar](https://github.com/codedance/maven-repository/raw/master/com/papercut/silken/silken/2011-12-20/silken-2011-12-20.jar)***
 
 
 ###Maven/Ivy Install
@@ -426,13 +427,13 @@ however may also be set in code.
 
 
 ```showStackTracesInErrors``` - Set to "true" to show stack traces in the
-browser/response. **Default**: false
+browser/response. **Default**: *false*
 
 ```disableCaching``` - Set to "true" to turn off caching. Helps when authoring
-templates (i.e. live refresh). **Default**: false
+templates (i.e. live refresh). **Default**: *false*
  
 ```sharedNamespaces``` - A comma separated list of namespaces shared
-(available) to all templates. **Default**: "shared"
+(available) to all templates. **Default**: *shared*
  
 ```localeResolver``` - Customize the locale resolver. Set to a fully qualified
 class name pointing to an implementation of *LocaleResolver*.  **Default**:
@@ -440,17 +441,17 @@ class name pointing to an implementation of *LocaleResolver*.  **Default**:
  
 ```modelResolver``` - Customize the model resolver. Set to a fully qualified
 class name pointing to an implementation of ```ModelResolver```.  **Default**:
-```RequestAttributeModelResolver```
+*RequestAttributeModelResolver*
  
 ```fileSetResolver``` - Customize the model resolver. Set to a fully qualified
 class name pointing to an implementation of ```FileSetResolver```. **Default**:
-```WebAppFileSetResolver```
+*WebAppFileSetResolver*
  
 ```compileTimeGlobalsProvider``` - Provide a custom map of Soy Template compile
-time globals. **Default**: none
+time globals. **Default**: *none*
  
 ```runtimeGlobalsProvider``` - Provide a custom map of runtime globals passed
-into every template render. **Default**: none
+into every template render. **Default**: *none*
  
 ```precompileNamespaces``` - a comma separated list of namespaces to
 pre-compile.
@@ -461,13 +462,13 @@ contain/reference ```$CLASSPATH``` and ```$WEBROOT```. **Default**:
 *$CLASSPATH:$WEBROOT/templates:$WEBROOT/WEB-INF/templates*
 
 
-In addition to using Init Parameters, configuration can be modified in code via
-by getting a reference to the Silken Config class via the ```silken.config```
-servlet context attribute.
+In addition to using Servlet Init Parameters, configuration can be modified in
+code via by getting a reference to the Silken Config class via the
+```silken.config``` servlet context attribute.
 
 ```java
 import com.papercut.silken.Config;
-
+// ...
 Config config = (Config) servletContext.getAttribute("silken.config");
 config.setRuntimeGlobalsProvider(myGlobalsProvider);
 ```
