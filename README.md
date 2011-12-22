@@ -175,8 +175,8 @@ Data parameters (the model) are passed to the templates via a [request
 attribute](http://docs.oracle.com/javaee/1.3/api/javax/servlet/ServletRequest.html).
 The model may either be:
 
-* A POJO
 * A map of key-value pairs (```Map<String, ?>```)
+* A POJO
 * An instance of
   [SoyMapData](http://closure-templates.googlecode.com/svn/trunk/javadoc-lite/com/google/template/soy/data/SoyMapData.html)
 (if you wish to couple your controller logic with Soy)
@@ -221,6 +221,59 @@ public class BoatDisplayController {
 	}
 
 }
+```
+
+In the example above the model (data passed to the template) is a POJO. The
+template parameters are populated with data from the matching POJO getter
+names.
+
+For example the template:
+
+```
+{namespace products.boat}
+/**
+* Page template for sail boats.
+* @param name The boat's name.
+* @param lengthOverAll The boat's LOA.
+*/
+{template .sailingBoatView}
+    {call shared.header /}
+    <h1>Boat Details</h1>
+    <table>
+        <tr>
+          <td>Name:</td>
+          <td>{$name}</td>
+        </tr>
+        <tr>
+          <td>Length Over All (LOA):</td>
+          <td>{$lengthOverAll}m</td>
+        </tr>
+    </table>
+    {call shared.footer /}
+{/template}
+```
+
+Could be rendered my passing an instance of the POJO:
+
+```java
+class SailBoat {
+    private String name;
+    private int lengthOverAll;
+    
+    public String getName() {
+        return name;
+    }
+    public int getLengthOverAll() {
+        return lengthOverAll;
+    }
+    // Setters ...
+}
+```
+
+Or by passing a ```Map<String,?>``` like:
+
+```java
+ImmutableMap.of("name", "Australia II", "lengthOverAll", 19);
 ```
 
 *Note:* There is no relationship between the dispatch URL used to render a
