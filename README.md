@@ -11,7 +11,7 @@ encourages convention over configuration, and promotes a set standard structure
 for template management.
 
 <a href="http://www.flickr.com/photos/fotoosvanrobin/5776783857/" 
-    title="by FotoosVanRobin on Flickr">
+    title="Silken Tofu by FotoosVanRobin on Flickr">
     <img src="http://farm6.staticflickr.com/5227/5776783857_02dbeb4d1b_m.jpg">
 </a>
 
