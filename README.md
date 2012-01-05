@@ -48,7 +48,7 @@ setup or using via Maven/Ivy.
 * **Convention over Configuration:** Clear conventions for file placement and
   naming conventions.
 * **Managed namespaces:** Both isolated and shared namespaces.
-* **Caching:** Compiled templates are cached while JVM memory is available.
+* **Smart Caching:** Compiled templates are cached while JVM memory is available.
 * **Auto Publish as JavaScript:** Expose selected templates as JavaScript (i.e.
   use the same templates on the client as on the server).
 * **Edit->Refresh Development:** Turn off caching to speed on-the-fly template
@@ -396,7 +396,7 @@ implemented by the ```localeResolver``` (see below).
 * ```[namespace]``` - the namespace.  All templates defined in ```*.js.soy```
   files will be rendered into the request.
 
-An example URL: ```http://myserver.com/soy/js/20111208/de/myproject.mytemplates.js```
+An example URL: ```http://myserver.com/soy/js/20120108/de/myproject.mytemplates.js```
    
 
 *Note:* JavaScript files are served up with a cache-control header setting the
@@ -428,7 +428,7 @@ Add the
 and the ```silken-[version].jar``` file onto your project's class path. The
 latest version of silken is:
 
-***[silken-2011-12-20.jar](https://github.com/codedance/maven-repository/raw/master/com/papercut/silken/silken/2011-12-20/silken-2011-12-20.jar)***
+***[silken-2012-01-05.jar](https://github.com/codedance/maven-repository/raw/master/com/papercut/silken/silken/2012-01-05/silken-2012-01-05.jar)***
 
 
 ###Maven/Ivy Install
@@ -450,7 +450,7 @@ Artifact:
 ```
 <groupId>com.papercut.silken</groupId>
 <artifactId>silken</artifactId>
-<version>2011-12-20</version>
+<version>2012-01-05</version>
 ```
 
 
@@ -551,6 +551,10 @@ Google Closure Templates is also referred to as Soy Templates.  You'll find
 references to Soy and Tofu throughout the project's class names.  Silken is a
 type of smooth fine Tofu.
 
+##Release History
+
+*2011-12-20* - Initial public release.
+*2012-01-05* - BUGFIX: Explicitly set the output character encoding to UTF-8.
 
 
 License

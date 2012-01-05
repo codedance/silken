@@ -92,6 +92,8 @@ public class SilkenServlet extends HttpServlet {
 
     private static final String JS_CONTENT_TYPE = "text/javascript";
     
+    private static final String UTF8_ENCODING = "UTF-8";
+    
 
     private final Config config = new Config();
 
@@ -267,6 +269,7 @@ public class SilkenServlet extends HttpServlet {
                 }
 
                 resp.setContentType(JS_CONTENT_TYPE);
+                resp.setCharacterEncoding(UTF8_ENCODING);
                 resp.setHeader("Cache-Control", "max-age=" + Long.toString(config.getJavaScriptCacheMaxAge()));
                 resp.getWriter().print(templateRenderer.provideAsJavaScript(namespace, locale));
                 return;
@@ -282,7 +285,9 @@ public class SilkenServlet extends HttpServlet {
                 model = Utils.mergeSoyMapData(model, globals);
             }
             
-            resp.setContentType(HTML_CONTENT_TYPE); // FUTURE: A mime type resolver?
+            // FUTURE: A mime type resolver and character type encoding?
+            resp.setContentType(HTML_CONTENT_TYPE);
+            resp.setCharacterEncoding(UTF8_ENCODING);
             resp.getWriter().print(templateRenderer.render(templateName, model, locale));
             return;
 
