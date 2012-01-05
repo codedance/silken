@@ -553,8 +553,9 @@ type of smooth fine Tofu.
 
 ##Release History
 
-*2011-12-20* - Initial public release.
-*2012-01-05* - BUGFIX: Explicitly set the output character encoding to UTF-8.
+**2011-12-20** - Initial public release.
+
+**2012-01-05** - BUGFIX: Explicitly set the output character encoding to UTF-8.
 
 
 License
