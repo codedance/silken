@@ -167,7 +167,7 @@ The general approach is as follows:
 2. Your controller code generates the data parameters that will be consumed by 
    the template by constructing a "model".  e.g. it may query a database 
    and make ```Boat()``` POJO class.
-3. The model is set as a request attribute.
+3. The model is set as a *servlet request attribute*.
 4. Finally, the controller code forwards/dispatches the request across to
    Silken to render the template.
 
