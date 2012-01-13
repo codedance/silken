@@ -387,7 +387,7 @@ in ```*.js.soy``` files)  for a given namespace is:
 Where:
 
 * ```[serial]``` - a mandatory component that can be used for cache busting.
- For example this may be a data or version number that increments every time a
+ For example this may be a date or version number that increments every time a
  new version is deployed.
 * ```[locale]``` - an optional component that denotes the locale (in Java
   string format like pt_BR, en, de, etc.) used to compile the template.  If
