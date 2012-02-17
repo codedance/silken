@@ -2,6 +2,10 @@ package com.papercut.silken;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -10,6 +14,7 @@ import java.util.Map;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.google.template.soy.data.SoyListData;
 import com.google.template.soy.data.SoyMapData;
 import com.google.template.soy.msgs.SoyMsgBundle;
 import com.google.template.soy.msgs.restricted.SoyMsg;
@@ -43,7 +48,7 @@ public class Utils {
                 Object value;
                 try {
                     value = method.invoke(pojo);
-                    map.put(name, value);
+                    map.put(name, getMapValue(value));
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -51,6 +56,28 @@ public class Utils {
         }
         return map;
     }
+    
+    private static Object getMapValue(Object obj) {
+    	if (obj == null) {
+    		return obj;
+    	} else if (obj.getClass().isArray()) {
+    		return obj;
+    	}
+    	
+    	if (obj instanceof Iterable<?>) {
+    		SoyListData list = new SoyListData();
+        	
+        	for (Object subValue : ((Iterable<?>)obj)) {
+        		list.add(getMapValue(subValue));
+        	}
+        	
+        	return list;
+    	} else if (obj instanceof String || obj instanceof Boolean || obj instanceof Integer || obj instanceof Double || obj instanceof Long) {
+    		return obj;
+	    }
+    	return pojoToMap(obj);
+    }
+    
     
     /**
      * Merge two SoyMapData resources.
