@@ -43,7 +43,7 @@ public class Utils {
                 Object value;
                 try {
                     value = method.invoke(pojo);
-                    map.put(name, value);
+                    map.put(name, getMapValue(value));
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -51,6 +51,28 @@ public class Utils {
         }
         return map;
     }
+    
+    private static Object getMapValue(Object obj) {
+    	if (obj == null) {
+    		return obj;
+    	} else if (obj.getClass().isArray()) {
+    		return obj;
+    	}
+    	
+    	if (obj instanceof Iterable<?>) {
+    		List<Object> list = Lists.newArrayList();
+        	
+        	for (Object subValue : ((Iterable<?>)obj)) {
+        		list.add(getMapValue(subValue));
+        	}
+        	
+        	return list;
+    	} else if (obj instanceof String || obj instanceof Boolean || obj instanceof Integer || obj instanceof Double || obj instanceof Long) {
+    		return obj;
+	    }
+    	return pojoToMap(obj);
+    }
+    
     
     /**
      * Merge two SoyMapData resources.
