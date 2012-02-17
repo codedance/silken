@@ -2,10 +2,6 @@ package com.papercut.silken;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -14,7 +10,6 @@ import java.util.Map;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import com.google.template.soy.data.SoyListData;
 import com.google.template.soy.data.SoyMapData;
 import com.google.template.soy.msgs.SoyMsgBundle;
 import com.google.template.soy.msgs.restricted.SoyMsg;
@@ -65,7 +60,7 @@ public class Utils {
     	}
     	
     	if (obj instanceof Iterable<?>) {
-    		SoyListData list = new SoyListData();
+    		List<Object> list = Lists.newArrayList();
         	
         	for (Object subValue : ((Iterable<?>)obj)) {
         		list.add(getMapValue(subValue));
