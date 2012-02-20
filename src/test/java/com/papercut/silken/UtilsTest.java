@@ -14,6 +14,8 @@ import org.junit.Test;
 
 import com.google.template.soy.data.SoyListData;
 import com.papercut.silken.test.ComplexPojo;
+import com.papercut.silken.test.PojoWithComplexMap;
+import com.papercut.silken.test.PojoWithSimpleMap;
 import com.papercut.silken.test.SuperComplexPojo;
 import com.papercut.silken.test.SimpleArrayPojo;
 import com.papercut.silken.test.SimplePojo;
@@ -149,5 +151,66 @@ public class UtilsTest {
 		
 		// assert
 		assertEquals(3, result.size());
+	}
+	
+	@Test
+	public void pojoToMap_pojoWithSimpleMap_createsMap() {
+		// arrange
+		PojoWithSimpleMap pojo = new PojoWithSimpleMap();
+
+		// act
+		Map<String, ?> result = Utils.pojoToMap(pojo);
+
+		// assert 
+		assertEquals(1, result.size());
+	}
+	
+	@Test
+	public void pojoToMap_pojoWithSimpleMap_getsSimpleMap() {
+		// arrange
+		PojoWithSimpleMap pojo = new PojoWithSimpleMap();
+
+		// act
+		Map<String, ?> result = Utils.pojoToMap(pojo);
+
+		// assert 
+		assertEquals(3, ((Map<String, Integer>)result.get("simpleMap")).size());
+	}
+	
+	@Test
+	public void pojoToMap_pojoWithComplexMap_createsMap() {
+		// arrange
+		PojoWithComplexMap pojo = new PojoWithComplexMap();
+
+		// act
+		Map<String, ?> result = Utils.pojoToMap(pojo);
+
+		// assert 
+		assertEquals(1, result.size());
+	}
+	
+	@Test
+	public void pojoToMap_pojoWithComplexMap_getsComplexMap() {
+		// arrange
+		PojoWithComplexMap pojo = new PojoWithComplexMap();
+
+		// act
+		Map<String, ?> result = Utils.pojoToMap(pojo);
+
+		// assert 
+		assertEquals(3, ((Map<String, Map<?,?>>)result.get("complexMap")).size());
+	}
+	
+	@Test
+	public void pojoToMap_pojoWithComplexMap_getsComplexMapValue() {
+		// arrange
+		PojoWithComplexMap pojo = new PojoWithComplexMap();
+
+		// act
+		Map<String, ?> result = Utils.pojoToMap(pojo);
+
+		// assert
+		Map<String, ?> subPojo = (Map<String, ?>)(((Map<String, Map<?,?>>)result.get("complexMap")).get("use"));
+		assertEquals(1, subPojo.get("intValue"));
 	}
 }

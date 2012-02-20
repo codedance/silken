@@ -10,6 +10,7 @@ import java.util.Map;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.template.soy.data.SoyMapData;
 import com.google.template.soy.msgs.SoyMsgBundle;
 import com.google.template.soy.msgs.restricted.SoyMsg;
@@ -59,7 +60,16 @@ public class Utils {
     		return obj;
     	}
     	
-    	if (obj instanceof Iterable<?>) {
+    	if (obj instanceof Map<?, ?>) {
+    		Map<String, ?> tempMap = (Map<String, ?>)obj;
+    		Map<String, Object> map = Maps.newHashMap();
+    		
+    		for (String key : tempMap.keySet()) {
+    			map.put(key, getMapValue(tempMap.get(key)));
+    		}
+    		return map;
+    	}
+    	else if (obj instanceof Iterable<?>) {
     		List<Object> list = Lists.newArrayList();
         	
         	for (Object subValue : ((Iterable<?>)obj)) {

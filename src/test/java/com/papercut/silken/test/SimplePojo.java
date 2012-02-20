@@ -9,6 +9,13 @@ public class SimplePojo {
 	private int intValue;
 	private Long longValue;
 	
+	public SimplePojo() {}
+	public SimplePojo(String stringValue, int intValue, long longValue) {
+		this.stringValue = stringValue;
+		this.intValue = intValue;
+		this.longValue = longValue;
+	}
+	
 	public String getStringValue() {
 		return stringValue;
 	}
