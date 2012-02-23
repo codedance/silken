@@ -609,7 +609,7 @@ Data.
 License
 =======
 
-    (c) Copyright 2011 PaperCut Software Int. Pty. Ltd. http://www.papercut.com/
+    (c) Copyright 2011-2012 PaperCut Software Int. Pty. Ltd. http://www.papercut.com/
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
