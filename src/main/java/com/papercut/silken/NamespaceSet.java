@@ -134,7 +134,7 @@ public class NamespaceSet {
         }
     }
 
-    protected String render(String templateName, SoyMapData model, Locale locale) {
+    protected String render(String templateName, SoyMapData model, SoyMapData ijData, Locale locale) {
         synchronized (cacheLock) {
             if (config.isDisableCaching()) {
                 flush();
@@ -144,7 +144,11 @@ public class NamespaceSet {
             }
         }
 
-        return tofu.newRenderer(templateName).setData(model).setMsgBundle(msgBundleCache.get(locale)).render();
+        return tofu.newRenderer(templateName)
+        		.setData(model)
+        		.setMsgBundle(msgBundleCache.get(locale))
+        		.setIjData(ijData)
+        		.render();
     }
 
     protected String provideAsJavaScript(Locale locale) {

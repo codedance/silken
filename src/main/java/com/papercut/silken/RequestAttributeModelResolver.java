@@ -30,7 +30,6 @@ public class RequestAttributeModelResolver implements ModelResolver {
     /**
      * @see com.papercut.silken.ModelResolver#resolveModel(javax.servlet.http.HttpServletRequest)
      */
-    @SuppressWarnings("unchecked")
     public SoyMapData resolveModel(HttpServletRequest request) {
         Object model = request.getAttribute(modelKey);
         if (model == null) {

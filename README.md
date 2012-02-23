@@ -176,7 +176,8 @@ attribute](http://docs.oracle.com/javaee/1.3/api/javax/servlet/ServletRequest.ht
 The model may either be:
 
 * A map of key-value pairs (```Map<String, ?>```)
-* A POJO
+* A [POJO](http://en.wikipedia.org/wiki/Plain_Old_Java_Object] 
+  (nested POJOs are supported - see **Referencing Model Data** below)
 * An instance of
   [SoyMapData](http://closure-templates.googlecode.com/svn/trunk/javadoc-lite/com/google/template/soy/data/SoyMapData.html)
 (if you wish to couple your controller logic with Soy)
@@ -289,6 +290,42 @@ messages, global variables (both run time and compile time) and pre-compiling
 your key templates on startup.  These advanced features and others are
 discussed in detail below.
 
+##Referencing Model Data
+Silken enhances Soy by supporting POJOs in the model data. POJOs are
+automatically converted to ```Maps``` before being passed to the template.
+POJOs may also be nested (referenced or set in  ```List``` elements).  For
+example, model data constructed like:
+
+```java
+
+Employee manager = new Employee()
+manager.setFirstName("Mary");
+
+Employee projectLead = new Employee();
+projectLead.setFirstName("John");
+projectLead.setNickNames(Lists.newArrayList("Johnny", "Jack", "Johno"));
+projectLead.setManager(manager);
+
+Map<String, ?> model = ImmutableMap.of(
+                "project", "Project X", 
+                "lead", projectLead);
+```
+
+can be accessed with template syntax:
+
+```
+Project: {$project}
+Lead: {$lead.firstName}
+Lead's Manager: {$lead.manager.firstName}
+Lead is also known as:
+{foreach $nick in $lead.nickNames}
+   {$nick},
+{/foreach})
+```
+
+See [Soy Expressions](http://code.google.com/closure/templates/docs/concepts.html#expressions)
+for more information on how to reference deep/nested data and list elements.
+
 ##Message Bundles and Translation
 
 ###Message Files
@@ -363,12 +400,22 @@ name of your class that implements
 
 
 ###Run-time Globals (Advanced):
-Run-time globals are injected into the model on every template render request.
+Run-time globals are available as Soy 
+[Injected Data](http://code.google.com/closure/templates/docs/concepts.html#injecteddata)
+(```$ij.foo```) *and* are also merged into the model on every template render
+request.
+
 Reasons for using run-time globals include:
 
 * Passing in a user name so it's available in the header on every page.
+* Useful session data that may be useful across many pages.
 
-Run-time globals can only be defined in code by an implementation of ```com.papercut.silken.RuntimeGlobalsProvider```.  This interface gives you access to the ```HTTPServletRequest```.  To define, set the ```runtimeGlobalsProvider``` servlet init parameter to a fully qualified name of your class that implements ```com.papercut.silken.RuntimeGlobalsProvider```.
+Run-time globals can only be defined in code by an implementation of
+```com.papercut.silken.RuntimeGlobalsProvider```.  This interface gives you
+access to the ```HTTPServletRequest```.  To define, set the
+```runtimeGlobalsProvider``` servlet init parameter to a fully qualified name
+of your class that implements ```com.papercut.silken.RuntimeGlobalsProvider```.
+
 
 ##Publishing Templates as JavaScript
 
@@ -428,7 +475,7 @@ Add the
 and the ```silken-[version].jar``` file onto your project's class path. The
 latest version of silken is:
 
-***[silken-2012-01-05.jar](https://github.com/codedance/maven-repository/raw/master/com/papercut/silken/silken/2012-01-05/silken-2012-01-05.jar)***
+***[silken-2012-02-23.jar](https://github.com/codedance/maven-repository/raw/master/com/papercut/silken/silken/2012-02-23/silken-2012-02-23.jar)***
 
 
 ###Maven/Ivy Install
@@ -450,7 +497,7 @@ Artifact:
 ```
 <groupId>com.papercut.silken</groupId>
 <artifactId>silken</artifactId>
-<version>2012-01-05</version>
+<version>2012-02-23</version>
 ```
 
 
@@ -554,6 +601,9 @@ type of smooth fine Tofu.
 **2011-12-20** - Initial public release.
 
 **2012-01-05** - BUGFIX: Explicitly set the output character encoding to UTF-8.
+
+**2012-02-23** - Nested POJO support. Globals are now set as ``$ij`` Injected
+Data.
 
 
 License

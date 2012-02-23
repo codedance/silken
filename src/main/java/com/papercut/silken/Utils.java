@@ -28,6 +28,7 @@ public class Utils {
     
     /**
      * Convert all data stored in a POJO or Map<String, Object> into a format compatible with Soy's DataMap.
+     * This method will convert nested POJOs to a corresponding nested Maps.
      * 
      * @param obj The Map or POJO who's data should be converted.
      * @return A Map of data compatible with Soy.
@@ -43,7 +44,7 @@ public class Utils {
     }
     
     /**
-     * Convert an object (or graph of objects) to types compatible with Soy (able to be stored in SoyDataMap).
+     * Convert an object (or graph of objects) to types compatible with Soy (data able to be stored in SoyDataMap).
      * This will convert:
      *    - POJOs to Maps
      *    - Iterables to Lists

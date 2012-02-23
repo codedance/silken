@@ -30,7 +30,7 @@ public class TemplateRenderer {
         this.config = config;
     }
 
-    public String render(String templateName, SoyMapData model, Locale locale) {
+    public String render(String templateName, SoyMapData model, SoyMapData ijData, Locale locale) {
 
         int lastDot = templateName.lastIndexOf('.');
         if (lastDot == -1) {
@@ -39,7 +39,7 @@ public class TemplateRenderer {
 
         String namespace = templateName.substring(0, lastDot);
 
-        return namespaceSetsCache.get(namespace).render(templateName, model, locale);
+        return namespaceSetsCache.get(namespace).render(templateName, model, ijData, locale);
     }
 
     public String provideAsJavaScript(String namespace, Locale locale) {
