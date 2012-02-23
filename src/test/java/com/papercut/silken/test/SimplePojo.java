@@ -7,13 +7,13 @@ package com.papercut.silken.test;
 public class SimplePojo {
 	private String stringValue;
 	private int intValue;
-	private Long longValue;
+	private Boolean boolValue;
 	
 	public SimplePojo() {}
-	public SimplePojo(String stringValue, int intValue, long longValue) {
+	public SimplePojo(String stringValue, int intValue, boolean boolValue) {
 		this.stringValue = stringValue;
 		this.intValue = intValue;
-		this.longValue = longValue;
+		this.boolValue = boolValue;
 	}
 	
 	public String getStringValue() {
@@ -28,10 +28,11 @@ public class SimplePojo {
 	public void setIntValue(int intValue) {
 		this.intValue = intValue;
 	}
-	public Long getLongValue() {
-		return longValue;
-	}
-	public void setLongValue(Long longValue) {
-		this.longValue = longValue;
-	}
+    public Boolean getBoolValue() {
+        return boolValue;
+    }
+    public void setBoolValue(Boolean boolValue) {
+        this.boolValue = boolValue;
+    }
+	
 }

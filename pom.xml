@@ -4,7 +4,7 @@
   <groupId>com.papercut.silken</groupId>
   <artifactId>silken</artifactId>
   <packaging>jar</packaging>
-  <version>2012-01-05</version>
+  <version>2012-02-23-SNAPSHOT</version>
   <name>silken</name>
   <url>https://github.com/codedance/silken</url>
   <description>Silken - a nicer tasting Soy Tofu (Google Closure Templates)</description>
@@ -55,7 +55,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>4.10</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

@@ -41,15 +41,9 @@ public class RequestAttributeModelResolver implements ModelResolver {
             return (SoyMapData) model;
         }
 
-        Map<String, ?> modelMap;
-        if (model instanceof Map) {
-            modelMap = (Map<String, ?>) model;
-        } else {
-            // FUTURE: Supported nested pojo's.
-            modelMap = Utils.pojoToMap(model);
-        }
-
-        return new SoyMapData(modelMap);
+        Map<String, ?> modeMap  = Utils.toSoyCompatibleMap(model);
+       
+        return new SoyMapData(modeMap);
     }
 
 }

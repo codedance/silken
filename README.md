@@ -540,8 +540,6 @@ is use in production.  It's been actively developed.  If you have any ideas for
 features please submit them as issues. A few ideas:
 
 * Maybe a way of publishing multiple namespaces into one JavaScript file.
-* Supported nested POJO's by flattening into a dotted notation like
-  "parent.child"
 * Lock down management URLs to set client IPs.
 
 
