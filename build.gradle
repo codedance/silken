@@ -1,0 +1,16 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	testCompile "junit:junit:4.8.2",
+				"org.mockito:mockito-all:1.8.5"
+	
+	
+    compile "com.google.guava:guava:r09",
+		    "javax.servlet:javax.servlet-api:3.0.1",
+    		"com.google.template:soy:2011-14-10"
+}
