@@ -402,19 +402,21 @@ name of your class that implements
 ###Run-time Globals (Advanced):
 Run-time globals are available as Soy 
 [Injected Data](http://code.google.com/closure/templates/docs/concepts.html#injecteddata)
-(```$ij.foo```) *and* are also merged into the model on every template render
-request.
+(```$ij.foo```).
 
 Reasons for using run-time globals include:
 
 * Passing in a user name so it's available in the header on every page.
 * Useful session data that may be useful across many pages.
 
-Run-time globals can only be defined in code by an implementation of
+Runtime globals can only be defined in code by an implementation of
 ```com.papercut.silken.RuntimeGlobalsProvider```.  This interface gives you
-access to the ```HTTPServletRequest```.  To define, set the
+access to the ```HTTPServletRequest```.  To define an implementation, set the
 ```runtimeGlobalsProvider``` servlet init parameter to a fully qualified name
 of your class that implements ```com.papercut.silken.RuntimeGlobalsProvider```.
+
+It is also possible to construct and inject alternate GlobalsProviders at
+runtime.  See *Injecting Configuration and Providers at Runtime* below.
 
 
 ##Publishing Templates as JavaScript
@@ -475,7 +477,7 @@ Add the
 and the ```silken-[version].jar``` file onto your project's class path. The
 latest version of silken is:
 
-***[silken-2012-02-23.jar](https://github.com/codedance/maven-repository/raw/master/com/papercut/silken/silken/2012-02-23/silken-2012-02-23.jar)***
+***[silken-2012-02-27.jar](https://github.com/codedance/maven-repository/raw/master/com/papercut/silken/silken/2012-02-27/silken-2012-02-27.jar)***
 
 
 ###Maven/Ivy Install
@@ -497,7 +499,7 @@ Artifact:
 ```
 <groupId>com.papercut.silken</groupId>
 <artifactId>silken</artifactId>
-<version>2012-02-23</version>
+<version>2012-02-27</version>
 ```
 
 
@@ -561,17 +563,23 @@ pre-compile.
 contain/reference ```$CLASSPATH``` and ```$WEBROOT```. **Default**:
 *$CLASSPATH:$WEBROOT/templates:$WEBROOT/WEB-INF/templates*
 
+##Injecting Configuration and Providers at Runtime
 
 In addition to using Servlet Init Parameters, configuration can be modified in
-code via by getting a reference to the Silken Config class via the
-```silken.config``` servlet context attribute.
+code at runtime. This includes modifying config options and also injecting
+alternate provider implementation.  To access the configuration at runtime,
+grab a reference to the Silken Config class via the ```silken.config``` servlet
+context attribute.  Example code:
 
 ```java
 import com.papercut.silken.Config;
 // ...
-Config config = (Config) servletContext.getAttribute("silken.config");
-config.setRuntimeGlobalsProvider(myGlobalsProvider);
+Config config = (Config) getServletContext().getAttribute("silken.config");
+config.setRuntimeGlobalsProvider(new MyGlobalsProvider());
 ```
+
+A logical place to perform this initalization would be in a
+[ServletContextListener](http://docs.oracle.com/javaee/6/api/javax/servlet/ServletContextListener.html).
 
 ##Supported Environments
 
@@ -602,8 +610,15 @@ type of smooth fine Tofu.
 
 **2012-01-05** - BUGFIX: Explicitly set the output character encoding to UTF-8.
 
-**2012-02-23** - Nested POJO support. Globals are now set as ``$ij`` Injected
-Data.
+**2012-02-23** - Nested POJO support. Globals are now set as ``$ij`` Injected Date.
+
+**2012-02-27** 
+
+* Runtime globals are now no longer also put into the Model. They are only 
+  available via ``$ij`` Injected Data.  
+* Improved documentation of injecting provider implementations at runtime.
+* Fixed at potential NPE that may occur if the model is null and a custom
+  runtime globals provider is implemented.
 
 
 License
