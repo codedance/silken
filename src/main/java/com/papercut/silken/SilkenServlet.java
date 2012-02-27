@@ -282,10 +282,12 @@ public class SilkenServlet extends HttpServlet {
             SoyMapData model = config.getModelResolver().resolveModel(req);
             SoyMapData globals = null;
             if (config.getRuntimeGlobalsProvider() != null) {
-            	
             	// Merge globals into the model
                 globals = config.getRuntimeGlobalsProvider().getGlobals(req);
-                model = Utils.mergeSoyMapData(model, globals);
+                if (model != null && globals != null) {
+                    // If keys in global clash with model, model wins.
+                    model = Utils.mergeSoyMapData(globals, model);
+                }
             }
             
             // FUTURE: A mime type resolver and character type encoding?
@@ -293,7 +295,6 @@ public class SilkenServlet extends HttpServlet {
             resp.setCharacterEncoding(UTF8_ENCODING);
             resp.getWriter().print(templateRenderer.render(templateName, model, globals, locale));
             return;
-
 
         } catch (Exception e) {
             error(req, resp, e);

@@ -129,12 +129,15 @@ public class Utils {
     }
     
     /**
-     * Merge two SoyMapData resources.
+     * Merge two SoyMapData resources.  If the two maps to merge contain duplicate key names, source
+     * s2 will overwrite s1.  
      * @param s1 1st resource map.
      * @param s2 2nd resource map.
      * @return A new SoyMapData object containing data from both source.
      */
     public static SoyMapData mergeSoyMapData(SoyMapData s1, SoyMapData s2) {
+        Preconditions.checkNotNull(s1);
+        Preconditions.checkNotNull(s2);
         SoyMapData merged = new SoyMapData();
         for (String key: s1.getKeys()) {
             merged.putSingle(key, s1.getSingle(key));
