@@ -130,19 +130,32 @@ public class Utils {
     
     /**
      * Merge two SoyMapData resources.
-     * @param s1 1st resource map.
-     * @param s2 2nd resource map.
+     * @param soyMap1 1st resource map.
+     * @param soyMap2 2nd resource map.
      * @return A new SoyMapData object containing data from both source.
      */
-    public static SoyMapData mergeSoyMapData(SoyMapData s1, SoyMapData s2) {
-        SoyMapData merged = new SoyMapData();
-        for (String key: s1.getKeys()) {
-            merged.putSingle(key, s1.getSingle(key));
+    public static SoyMapData mergeSoyMapData(SoyMapData soyMap1, SoyMapData soyMap2) {
+        SoyMapData mergedMap = new SoyMapData();
+        
+        if (soyMap1 != null) {
+        	addSoyMapMapToSoyMapData(soyMap1, mergedMap);
         }
-        for (String key: s2.getKeys()) {
-            merged.putSingle(key, s2.getSingle(key));
+        if (soyMap2 != null) {
+        	addSoyMapMapToSoyMapData(soyMap2, mergedMap);
         }
-        return merged;
+
+        return mergedMap;
+    }
+    
+    /**
+     * Iterates through sourceMap and adds entries to destinationMap 
+     * @param sourceMap Map to read from
+     * @param destinationMap Map to write to
+     */
+    private static void addSoyMapMapToSoyMapData(SoyMapData sourceMap, SoyMapData destinationMap) {
+    	for (String key: sourceMap.getKeys()) {
+    		destinationMap.putSingle(key, sourceMap.getSingle(key));
+        }
     }
     
     /**
