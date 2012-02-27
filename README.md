@@ -587,6 +587,13 @@ Silken will run in any standard Servlet hosting environment, including [Google
 App Engine](http://code.google.com/appengine/). Silken is written to work with
 the latest version of Soy Templates.
 
+##Demo
+
+To get a quick fee for Silken it is recommended that you download and play with
+the [Htmleasy Playground Project](http://code.google.com/p/htmleasy/downloads/list).
+This is a pre-assembled Google App Engine Eclipse project demonstrating 
+Htmleasy and includes some Silken examples.
+
 ##Future
 
 Silken's development is supported by [PaperCut
