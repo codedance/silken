@@ -190,6 +190,9 @@ public class SilkenServlet extends HttpServlet {
         // Store a reference config in our context so external code can modify.
         getServletContext().setAttribute("silken.config", config);
         
+        // Store a reference to our template render so external code can access for raw rendering is required.
+        getServletContext().setAttribute("silken.templateRenderer", templateRenderer);
+        
         // Do we have some namespaces defined to precompile?
         String namespaces = servletConfig.getInitParameter("precompileNamespaces");
         if (!Strings.isNullOrEmpty(namespaces)) {

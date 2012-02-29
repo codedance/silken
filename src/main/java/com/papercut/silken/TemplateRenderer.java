@@ -30,6 +30,14 @@ public class TemplateRenderer {
         this.config = config;
     }
 
+    /**
+     * Renders a template using the provided data (model and injected) as SoyMapData and locale for messages. 
+     * @param templateName A fully qualified template name.
+     * @param model The model data.
+     * @param ijData Injected data or null if no data.
+     * @param locale The locale used to render messages, etc.
+     * @return A string representation of the template.
+     */
     public String render(String templateName, SoyMapData model, SoyMapData ijData, Locale locale) {
 
         int lastDot = templateName.lastIndexOf('.');
@@ -40,6 +48,28 @@ public class TemplateRenderer {
         String namespace = templateName.substring(0, lastDot);
 
         return namespaceSetsCache.get(namespace).render(templateName, model, ijData, locale);
+    }
+    
+    /**
+     * Renders a template using the provided data (model and injected) as any Silken compatible object/structure.
+     */
+    public String render(String templateName, Object model, Object ijData, Locale locale) {
+    	return render(templateName, Utils.objectToSoyDataMap(model), Utils.objectToSoyDataMap(ijData), locale);
+    }
+    
+    /**
+     * Renders a template provided a model (as a SoyMapData).  Uses default locale.
+     */
+    public String render(String templateName, SoyMapData model) {
+    	return render(templateName, model, null, null);
+    }
+    
+    /**
+     * Renders a template provided a model (as any Silken compatible object/structure).
+     * Uses the default locale.
+     */
+    public String render(String templateName, Object model) {
+    	return render(templateName, model, null, null);
     }
 
     public String provideAsJavaScript(String namespace, Locale locale) {

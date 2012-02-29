@@ -53,7 +53,7 @@ public class Utils {
      * @param obj The object to convert.
      * @return The object converted (in applicable).
      */
-    public static Object toSoyCompatibleObjects(Object obj) {
+    private static Object toSoyCompatibleObjects(Object obj) {
         
         if (obj == null) {
             return obj;
@@ -98,8 +98,7 @@ public class Utils {
             return newMap;
         }
     }
-    
-    
+     
     /**
      * Convert a Java POJO to a Map<String, Object>.
      * @param pojo The Java pojo object with standard getters and setters.
@@ -126,6 +125,21 @@ public class Utils {
             }
         }
         return map;
+    }
+    
+    /**
+     * Convert (at least attempt) any object to a SoyMapData instance. 
+     * @param obj The object to convert.
+     * @return The created SoyMapData.
+     */
+    public static SoyMapData objectToSoyDataMap(Object obj) {
+    	if (obj == null) {
+    		return new SoyMapData();
+    	}
+    	if (obj instanceof SoyMapData) {
+    		return (SoyMapData) obj;
+    	}
+    	return new SoyMapData(toSoyCompatibleMap(obj));
     }
     
     /**
