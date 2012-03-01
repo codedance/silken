@@ -18,7 +18,7 @@ public class Config {
 
     private CompileTimeGlobalsProvider compileTimeGlobalsProvider;
     
-    private RuntimeGlobalsProvider runtimeGlobalsProvider;
+    private RuntimeGlobalsResolver runtimeGlobalsResolver;
 
     private LocaleResolver localeResolver;
 
@@ -38,7 +38,7 @@ public class Config {
         sharedNameSpaces = Lists.newArrayList("shared");
         disableCaching = false;
         compileTimeGlobalsProvider = null;
-        runtimeGlobalsProvider = null;
+        runtimeGlobalsResolver = new RequestAttributeRuntimeGlobalsResolver();
         localeResolver = new AcceptHeaderLocaleResolver();
         modelResolver = new RequestAttributeModelResolver();
         searchPath = "$CLASSPATH:$WEBROOT/templates:$WEBROOT/WEB-INF/templates";
@@ -69,12 +69,12 @@ public class Config {
         this.compileTimeGlobalsProvider = compileTimeGlobalsProvider;
     }
 
-    public RuntimeGlobalsProvider getRuntimeGlobalsProvider() {
-		return runtimeGlobalsProvider;
+	public RuntimeGlobalsResolver getRuntimeGlobalsResolver() {
+		return runtimeGlobalsResolver;
 	}
 
-	public void setRuntimeGlobalsProvider(RuntimeGlobalsProvider runtimeGlobalsProvider) {
-		this.runtimeGlobalsProvider = runtimeGlobalsProvider;
+	public void setRuntimeGlobalsResolver(RuntimeGlobalsResolver runtimeGlobalsResolver) {
+		this.runtimeGlobalsResolver = runtimeGlobalsResolver;
 	}
 
 	public LocaleResolver getLocaleResolver() {

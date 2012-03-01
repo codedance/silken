@@ -5,8 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.template.soy.data.SoyMapData;
 
 /**
- * Extract the model (SoyMapData) which will be used to render the template.  If implemented this will be called
- * once per request.
+ * Extract the model (SoyMapData) which will be used to render the template.  This must be 
+ * implemented and will be called once per request.
  * 
  * @author chris
  */

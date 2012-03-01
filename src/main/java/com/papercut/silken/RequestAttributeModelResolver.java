@@ -27,7 +27,7 @@ public class RequestAttributeModelResolver implements ModelResolver {
         this.modelKey = modelKey;
     }
 
-    /**
+    /*
      * @see com.papercut.silken.ModelResolver#resolveModel(javax.servlet.http.HttpServletRequest)
      */
     public SoyMapData resolveModel(HttpServletRequest request) {

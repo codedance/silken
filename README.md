@@ -398,7 +398,6 @@ documentation](http://code.google.com/closure/templates/docs/java_usage.html#glo
 name of your class that implements
 ```com.papercut.silken.CompileTimeGlobalsProvider```.
 
-
 ###Run-time Globals (Advanced):
 Run-time globals are available as Soy 
 [Injected Data](http://code.google.com/closure/templates/docs/concepts.html#injecteddata)
@@ -407,17 +406,44 @@ Run-time globals are available as Soy
 Reasons for using run-time globals include:
 
 * Passing in a user name so it's available in the header on every page.
-* Useful session data that may be useful across many pages.
+* Session data that may be useful across many pages.
 
-Runtime globals can only be defined in code by an implementation of
-```com.papercut.silken.RuntimeGlobalsProvider```.  This interface gives you
+Runtime globals can be set in one of two ways:
+
+* By setting *servlet request attribute* under the key "globals".
+* In code by implementing ```com.papercut.silken.RuntimeGlobalsResolver```.
+
+A logical place to set your runtime globals would in a *Servlet Filter* or a 
+[JAX-RS PreProcessInterceptors](http://docs.jboss.org/resteasy/docs/1.2.GA/userguide/html/Interceptors.html#PreProcessInterceptors).
+
+```java
+public class SetGlobalsFilter extends Filter {
+
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+        
+        // All templates need access to the logged in user ($ij.username)
+        String username = request.getUserPrincipal().getName()
+
+        // Let's make our user agent a global as well.
+        String userAgent = request.getHeader("User-Agent");
+
+        Map<String, ?> globals = ImmutableMap.of("username", username,
+                                                 "userAgent", userAgent);
+
+        request.setAttribute("globals", globals);
+    }
+}
+```
+
+Runtime globals can also be defined in code by implementing 
+```com.papercut.silken.RuntimeGlobalsResolver```.  This interface gives you
 access to the ```HTTPServletRequest```.  To define an implementation, set the
-```runtimeGlobalsProvider``` servlet init parameter to a fully qualified name
-of your class that implements ```com.papercut.silken.RuntimeGlobalsProvider```.
+```runtimeGlobalsResolver``` servlet init parameter to a fully qualified name
+of your class that implements ```com.papercut.silken.RuntimeGlobalsResolver```.
 
-It is also possible to construct and inject alternate GlobalsProviders at
-runtime.  See *Injecting Configuration and Providers at Runtime* below.
-
+It is also possible to construct and inject an alternate ```GlobalsResolver```
+at runtime.  See *Injecting Configuration and Resolvers at Runtime* below.
 
 ##Publishing Templates as JavaScript
 
@@ -478,7 +504,6 @@ and the ```silken-[version].jar``` file onto your project's class path. The
 latest version of silken is:
 
 ***[silken-2012-02-27.jar](https://github.com/codedance/maven-repository/raw/master/com/papercut/silken/silken/2012-02-27/silken-2012-02-27.jar)***
-
 
 ###Maven/Ivy Install
 
@@ -552,7 +577,7 @@ class name pointing to an implementation of ```FileSetResolver```. **Default**:
 ```compileTimeGlobalsProvider``` - Provide a custom map of Soy Template compile
 time globals. **Default**: *none*
  
-```runtimeGlobalsProvider``` - Provide a custom map of runtime globals passed
+```runtimeGlobalsResolver``` - Provide a custom map of runtime globals passed
 into every template render. **Default**: *none*
  
 ```precompileNamespaces``` - a comma separated list of namespaces to
@@ -563,7 +588,7 @@ pre-compile.
 contain/reference ```$CLASSPATH``` and ```$WEBROOT```. **Default**:
 *$CLASSPATH:$WEBROOT/templates:$WEBROOT/WEB-INF/templates*
 
-##Injecting Configuration and Providers at Runtime
+##Injecting Configuration and Resolvers at Runtime (Advanced)
 
 In addition to using Servlet Init Parameters, configuration can be modified in
 code at runtime. This includes modifying config options and also injecting
@@ -575,11 +600,29 @@ context attribute.  Example code:
 import com.papercut.silken.Config;
 // ...
 Config config = (Config) getServletContext().getAttribute("silken.config");
-config.setRuntimeGlobalsProvider(new MyGlobalsProvider());
+config.setLocaleResolver(new MyLocaleResolver());
 ```
 
-A logical place to perform this initalization would be in a
-[ServletContextListener](http://docs.oracle.com/javaee/6/api/javax/servlet/ServletContextListener.html).
+A logical place to perform this initalization would be in a startup servlet's
+init method.
+
+##Accessing the Template Renderer (Advanced)
+
+It's possible for non-servlet request code to access Silken's template
+rendering service. For example you may have a service that generates template
+emails. By using Silken's ``TemplateRenderer`` server, this email generation
+code can benefit from the same template structure, caching layer, etc.
+
+```java
+Map<String, String> model = ImmutableMap.of("username", username
+                                            "password", password); 
+
+TemplateRenderer renderer = (TemplateRenderer) context.getAttribute("silken.templateRenderer");
+
+String emailText = renderer.render("email.lostPassword", model);
+
+myEmailService.sendEmail(emailAddress, emailText);
+```
 
 ##Supported Environments
 
@@ -604,7 +647,6 @@ features please submit them as issues. A few ideas:
 * Maybe a way of publishing multiple namespaces into one JavaScript file.
 * Lock down management URLs to set client IPs.
 
-
 ##Why is the project called "Silken"?
 
 Google Closure Templates is also referred to as Soy Templates.  You'll find
@@ -627,6 +669,17 @@ type of smooth fine Tofu.
 * Fixed at potential NPE that may occur if the model is null and a custom
   runtime globals provider is implemented.
 
+**2012-0X-XX** 
+
+* Global ``$ij`` data may now be defined by setting a request attribute 
+  "globals".
+* Experimental: The TemplateRenderer is now set as a servlet context
+  attribute under "silken.templateRenderer". This allow other code to
+  potentially use the template rendering layer in a raw form from outside web
+  request code.
+* Renamed RuntimeGlobalsProvider to RuntimeGlobalsResolver to make it consistent
+  with the other request based resolvers. Sites using a custom implementation 
+  will need to rename their class.
 
 License
 =======

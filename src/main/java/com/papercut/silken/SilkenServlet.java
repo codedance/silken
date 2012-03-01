@@ -163,13 +163,13 @@ public class SilkenServlet extends HttpServlet {
             }
         }
         
-        String runtimeGlobalsProvider = servletConfig.getInitParameter("runtimeGlobalsProvider");
+        String runtimeGlobalsProvider = servletConfig.getInitParameter("runtimeGlobalsResolver");
         if (runtimeGlobalsProvider != null) {
             try {
                 Object provider = Class.forName(runtimeGlobalsProvider).newInstance();
-                config.setRuntimeGlobalsProvider((RuntimeGlobalsProvider) provider);
+                config.setRuntimeGlobalsResolver((RuntimeGlobalsResolver) provider);
             } catch (Exception e) {
-                throw new ServletException("Unable to create runtimeGlobalsProvider", e);
+                throw new ServletException("Unable to create runtimeGlobalsResolver", e);
             }
         }
 
@@ -284,8 +284,8 @@ public class SilkenServlet extends HttpServlet {
             
             SoyMapData model = config.getModelResolver().resolveModel(req);
             SoyMapData globals = null;
-            if (config.getRuntimeGlobalsProvider() != null) {
-                globals = config.getRuntimeGlobalsProvider().getGlobals(req);
+            if (config.getRuntimeGlobalsResolver() != null) {
+                globals = config.getRuntimeGlobalsResolver().resolveGlobals(req);
             }
             
             // FUTURE: A mime type resolver and character type encoding?
