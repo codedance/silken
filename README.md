@@ -414,7 +414,7 @@ Runtime globals can be set in one of two ways:
 * In code by implementing ```com.papercut.silken.RuntimeGlobalsResolver```.
 
 A logical place to set your runtime globals would in a *Servlet Filter* or a 
-[JAX-RS PreProcessInterceptors](http://docs.jboss.org/resteasy/docs/1.2.GA/userguide/html/Interceptors.html#PreProcessInterceptors).
+[JAX-RS PreProcessInterceptors](http://docs.jboss.org/resteasy/docs/2.3.1.GA/userguide/html/Interceptors.html#PreProcessInterceptors).
 
 ```java
 public class SetGlobalsFilter extends Filter {
