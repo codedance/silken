@@ -2,11 +2,13 @@ package com.papercut.silken;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.ImmutableList;
 
 /**
  * This config class holds various global configuration. Multiple layers have a reference to this configuration
  * store/POJO.
+ * 
+ * Developers: Take care to ensure data changes are visible across threds (thread-safe).
  * 
  * @author chris
  */
@@ -35,7 +37,7 @@ public class Config {
     private boolean showStackTracesInErrors;
 
     public Config() {
-        sharedNameSpaces = Lists.newArrayList("shared");
+        sharedNameSpaces = ImmutableList.of("shared");
         disableCaching = false;
         compileTimeGlobalsProvider = null;
         runtimeGlobalsResolver = new RequestAttributeRuntimeGlobalsResolver();
@@ -45,91 +47,92 @@ public class Config {
         showStackTracesInErrors = true;
     }
 
-    public List<String> getSharedNameSpaces() {
+    public synchronized List<String> getSharedNameSpaces() {
         return sharedNameSpaces;
     }
 
-    public void setSharedNameSpaces(List<String> sharedNameSpaces) {
-        this.sharedNameSpaces = sharedNameSpaces;
+    public synchronized void setSharedNameSpaces(List<String> sharedNameSpaces) {
+        // To ensure we're threadsafe we'll copy to an immutable list
+        this.sharedNameSpaces = ImmutableList.copyOf(sharedNameSpaces);
     }
 
-    public boolean isDisableCaching() {
+    public synchronized boolean isDisableCaching() {
         return disableCaching;
     }
 
-    public void setDisableCaching(boolean disableCaching) {
+    public synchronized void setDisableCaching(boolean disableCaching) {
         this.disableCaching = disableCaching;
     }
 
-    public CompileTimeGlobalsProvider getCompileTimeGlobalsProvider() {
+    public synchronized CompileTimeGlobalsProvider getCompileTimeGlobalsProvider() {
         return compileTimeGlobalsProvider;
     }
 
-    public void setCompileTimeGlobalsProvider(CompileTimeGlobalsProvider compileTimeGlobalsProvider) {
+    public synchronized void setCompileTimeGlobalsProvider(CompileTimeGlobalsProvider compileTimeGlobalsProvider) {
         this.compileTimeGlobalsProvider = compileTimeGlobalsProvider;
     }
 
-	public RuntimeGlobalsResolver getRuntimeGlobalsResolver() {
+	public synchronized RuntimeGlobalsResolver getRuntimeGlobalsResolver() {
 		return runtimeGlobalsResolver;
 	}
 
-	public void setRuntimeGlobalsResolver(RuntimeGlobalsResolver runtimeGlobalsResolver) {
+	public synchronized void setRuntimeGlobalsResolver(RuntimeGlobalsResolver runtimeGlobalsResolver) {
 		this.runtimeGlobalsResolver = runtimeGlobalsResolver;
 	}
 
-	public LocaleResolver getLocaleResolver() {
+	public synchronized LocaleResolver getLocaleResolver() {
         return localeResolver;
     }
 
-    public void setLocaleResolver(LocaleResolver localeResolver) {
+    public synchronized void setLocaleResolver(LocaleResolver localeResolver) {
         this.localeResolver = localeResolver;
     }
 
-    public ModelResolver getModelResolver() {
+    public synchronized ModelResolver getModelResolver() {
         return modelResolver;
     }
 
-    public void setModelResolver(ModelResolver modelResolver) {
+    public synchronized void setModelResolver(ModelResolver modelResolver) {
         this.modelResolver = modelResolver;
     }
 
-    public long getJavaScriptCacheMaxAge() {
+    public synchronized long getJavaScriptCacheMaxAge() {
         return javaScriptCacheMaxAge;
     }
 
-    public void setJavaScriptCacheMaxAge(long javaScriptCacheMaxAge) {
+    public synchronized void setJavaScriptCacheMaxAge(long javaScriptCacheMaxAge) {
         this.javaScriptCacheMaxAge = javaScriptCacheMaxAge;
     }
 
-    public FileSetResolver getFileSetResolver() {
+    public synchronized FileSetResolver getFileSetResolver() {
         return fileSetResolver;
     }
 
-    public void setFileSetResolver(FileSetResolver fileSetResolver) {
+    public synchronized void setFileSetResolver(FileSetResolver fileSetResolver) {
         this.fileSetResolver = fileSetResolver;
     }
 
-    public String getSearchPath() {
+    public synchronized String getSearchPath() {
         return searchPath;
     }
 
-    public void setSearchPath(String searchPath) {
+    public synchronized void setSearchPath(String searchPath) {
         this.searchPath = searchPath;
     }
 
-    public long getLastChange() {
+    public synchronized long getLastChange() {
         return lastChange;
     }
 
-    public void setLastChange(long lastChange) {
+    public synchronized void setLastChange(long lastChange) {
         this.lastChange = lastChange;
     }
 
-    public boolean isShowStackTracesInErrors() {
+    public synchronized boolean isShowStackTracesInErrors() {
         return showStackTracesInErrors;
     }
 
-    public void setShowStackTracesInErrors(boolean showStackTracesInErrors) {
+    public synchronized void setShowStackTracesInErrors(boolean showStackTracesInErrors) {
         this.showStackTracesInErrors = showStackTracesInErrors;
     }
 
