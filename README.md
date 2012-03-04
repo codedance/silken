@@ -602,16 +602,17 @@ import com.papercut.silken.Config;
 Config config = (Config) getServletContext().getAttribute("silken.config");
 config.setLocaleResolver(new MyLocaleResolver());
 ```
-
 A logical place to perform this initalization would be in a startup servlet's
-init method.
+init method. It is also possible to access the ``Config`` class using the
+convenience method: ``SilkenServlet.getConfig()``. 
 
 ##Accessing the Template Renderer (Advanced)
 
 It's possible for non-servlet request code to access Silken's template
 rendering service. For example you may have a service that generates template
-emails. By using Silken's ``TemplateRenderer`` server, this email generation
-code can benefit from the same template structure, caching layer, etc.
+emails. By using Silken's ``TemplateRenderer`` service, your template email
+generation code can benefit from the same template structure, caching layer,
+etc. Example usage:
 
 ```java
 Map<String, String> model = ImmutableMap.of("username", username
@@ -620,9 +621,11 @@ Map<String, String> model = ImmutableMap.of("username", username
 TemplateRenderer renderer = (TemplateRenderer) context.getAttribute("silken.templateRenderer");
 
 String emailText = renderer.render("email.lostPassword", model);
-
 myEmailService.sendEmail(emailAddress, emailText);
 ```
+
+It is also possible to access the ``TemplateRenderer`` using the convenience
+method: ``SilkenServlet.getTemplateRenderer()``. 
 
 ##Supported Environments
 
