@@ -4,7 +4,7 @@
   <groupId>com.papercut.silken</groupId>
   <artifactId>silken</artifactId>
   <packaging>jar</packaging>
-  <version>2012-03-02</version>
+  <version>2012-03-04</version>
   <name>silken</name>
   <url>https://github.com/codedance/silken</url>
   <description>Silken - a nicer tasting Soy Tofu (Google Closure Templates)</description>
@@ -35,7 +35,7 @@
     <repository>
       <id>target.repo</id>
       <name>Local target directory</name>
-      <url>file://..\\maven-repository</url>
+      <url>file://${basedir}/../maven-repository</url>
     </repository>
   </distributionManagement>
 
