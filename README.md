@@ -501,7 +501,7 @@ servlet mapping. To install:
 Add the
 [soy-[version].jar](http://code.google.com/p/closure-templates/downloads/list)
 and the ```silken-[version].jar``` file onto your project's class path. The
-latest version of silken is:
+latest version of Silken is:
 
 ***[silken-2012-03-04.jar](https://github.com/codedance/maven-repository/raw/master/com/papercut/silken/silken/2012-03-04/silken-2012-03-04.jar)***
 
