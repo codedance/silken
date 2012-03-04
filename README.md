@@ -76,13 +76,14 @@ equivalent).  After adding the required dependencies to your project (see
 installing), add the following to your ```web.xml``` file:
 
     <servlet>
-    	<servlet-name>soy</servlet-name>
-    	<servlet-class>com.papercut.silken.SilkenServlet</servlet-class>
+        <servlet-name>soy</servlet-name>
+        <servlet-class>com.papercut.silken.SilkenServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     
     <servlet-mapping>
-    	<servlet-name>soy</servlet-name>
-    	<url-pattern>/soy/*</url-pattern>
+        <servlet-name>soy</servlet-name>
+        <url-pattern>/soy/*</url-pattern>
     </servlet-mapping>
 
 *Note:* Although any URL prefix is supported, ```/soy``` is recommended and the
