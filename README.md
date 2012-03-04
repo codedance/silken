@@ -503,7 +503,7 @@ Add the
 and the ```silken-[version].jar``` file onto your project's class path. The
 latest version of silken is:
 
-***[silken-2012-03-02.jar](https://github.com/codedance/maven-repository/raw/master/com/papercut/silken/silken/2012-03-03/silken-2012-03-02.jar)***
+***[silken-2012-03-04.jar](https://github.com/codedance/maven-repository/raw/master/com/papercut/silken/silken/2012-03-04/silken-2012-03-04.jar)***
 
 ###Maven/Ivy Install
 
@@ -524,7 +524,7 @@ Artifact:
 ```
 <groupId>com.papercut.silken</groupId>
 <artifactId>silken</artifactId>
-<version>2012-03-02</version>
+<version>2012-03-04</version>
 ```
 
 
@@ -672,7 +672,7 @@ type of smooth fine Tofu.
 * Fixed at potential NPE that may occur if the model is null and a custom
   runtime globals provider is implemented.
 
-**2012-03-02** 
+**2012-03-04** 
 
 * Global ``$ij`` data may now be defined by setting a request attribute 
   "globals".
