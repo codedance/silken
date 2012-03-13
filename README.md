@@ -57,8 +57,7 @@ setup or using via Maven/Ivy.
   recompile remotely via management URLs.
 * **Globals:** Conventions for defining both compile-time and run-time globals.
 * **Translation:** Conventions for message bundle/file management.
-* **Simple Setup:** Maven/Ivy support with simple servlet configuration.
-
+* **Simple Setup:** Simple Servlet configuration. Optional Maven/Ivy support.
 
 
 ##How To Use
@@ -162,15 +161,15 @@ For example:
 
 The general approach is as follows:
 
-1. The browser hits your controller code (e.g. servlet code, or an MVC
+1. The requst/browser hits your controller code (e.g. servlet code, or an MVC
    framework like [HtmlEasy](http://code.google.com/p/htmleasy/), or
   [SpringMVC](http://static.springsource.org/spring/docs/2.0.x/reference/mvc.html) ).
 2. Your controller code generates the data parameters that will be consumed by 
    the template by constructing a "model".  e.g. it may query a database 
-   and make ```Boat()``` POJO class.
-3. The model is set as a *servlet request attribute*.
+   and make a ```Boat()``` POJO class.
+3. The model is set as a [Servlet Request Attribute](http://docs.oracle.com/javaee/1.3/api/javax/servlet/ServletRequest.html).
 4. Finally, the controller code forwards/dispatches the request across to
-   Silken to render the template.
+   Silken and the template is rendered (returned to the browser).
 
 Data parameters (the model) are passed to the templates via a [request
 attribute](http://docs.oracle.com/javaee/1.3/api/javax/servlet/ServletRequest.html).
@@ -202,14 +201,14 @@ public class SimpleBoatServlet extends HttpServlet {
 		// Push the model into the request attribute under key "model".
 		req.setAttribute("model", boatPojo);
 		
-		// Forward across to the Silken - path denotes the template to render.
+		// Forward across to Silken - the path denotes the template to render.
 		RequestDispatcher rd = getServletContext().getRequestDispatcher("/soy/products.boat.sailingBoatView");
 		rd.forward(req, resp);
 	}
 }
 ```
 
-*Using [HtmlEasy](http://code.google.com/p/htmleasy/) in a nice-URL JAX-RS RESTful style:*
+*Using [HtmlEasy](http://code.google.com/p/htmleasy/) (recommended) in a nice-URL JAX-RS RESTful style:*
 
 ```java
 public class BoatDisplayController {
