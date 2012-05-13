@@ -16,6 +16,7 @@ import com.google.template.soy.jssrc.SoyJsSrcOptions;
 import com.google.template.soy.msgs.SoyMsgBundle;
 import com.google.template.soy.msgs.SoyMsgBundleHandler;
 import com.google.template.soy.tofu.SoyTofu;
+import com.google.template.soy.tofu.SoyTofu.Renderer;
 import com.google.template.soy.xliffmsgplugin.XliffMsgPlugin;
 
 /**
@@ -135,7 +136,9 @@ public class NamespaceSet {
     }
 
     protected String render(String templateName, SoyMapData model, SoyMapData ijData, Locale locale) {
-
+    	SoyMsgBundle msgBundle = locale != null ? msgBundleCache.get(locale) : null;
+    	Renderer renderer;
+    	
         synchronized (cacheLock) {
             if (config.isDisableCaching()) {
                 flush();
@@ -143,12 +146,11 @@ public class NamespaceSet {
             if (tofu == null) {
                 compile();
             }
+            
+            renderer = tofu.newRenderer(templateName);
         }
-        
-        SoyMsgBundle msgBundle = locale != null ? msgBundleCache.get(locale) : null;
 
-        return tofu.newRenderer(templateName)
-        		.setData(model)
+        return renderer.setData(model)
         		.setMsgBundle(msgBundle)
         		.setIjData(ijData)
         		.render();
