@@ -41,6 +41,7 @@ public class NamespaceSet {
 
     private Object cacheLock = new Object();
 
+    // Guarded by cacheLock;
     private SoyTofu tofu;
 
     private final Map<Locale, SoyMsgBundle> msgBundleCache = new MapMaker().softValues().makeComputingMap(
@@ -136,7 +137,6 @@ public class NamespaceSet {
     }
 
     protected String render(String templateName, SoyMapData model, SoyMapData ijData, Locale locale) {
-    	SoyMsgBundle msgBundle = locale != null ? msgBundleCache.get(locale) : null;
     	Renderer renderer;
     	
         synchronized (cacheLock) {
@@ -146,10 +146,11 @@ public class NamespaceSet {
             if (tofu == null) {
                 compile();
             }
-            
             renderer = tofu.newRenderer(templateName);
         }
-
+        
+        SoyMsgBundle msgBundle = locale != null ? msgBundleCache.get(locale) : null;
+        
         return renderer.setData(model)
         		.setMsgBundle(msgBundle)
         		.setIjData(ijData)
