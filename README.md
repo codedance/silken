@@ -503,7 +503,7 @@ Add the
 and the ```silken-[version].jar``` file onto your project's class path. The
 latest version of Silken is:
 
-***[silken-2012-03-04.jar](https://github.com/downloads/codedance/silken/silken-2012-03-04.jar)***
+***[silken-2012-05-14.jar](https://github.com/downloads/codedance/silken/silken-2012-05-14.jar)***
 
 ###Maven/Ivy Install
 
@@ -524,7 +524,7 @@ Artifact:
 ```
 <groupId>com.papercut.silken</groupId>
 <artifactId>silken</artifactId>
-<version>2012-03-04</version>
+<version>2012-05-14</version>
 ```
 
 
@@ -684,6 +684,10 @@ type of smooth fine Tofu.
   with the other request based resolvers. Sites using a custom implementation 
   will need to rename their class.
 * A few changes to areas of code that may not have been thread-safe. 
+
+**2012-05-14** - Fixed a potential thread-safty issue that may occure when
+  running with ``disableCaching`` set to true (i.e. development mode).
+
 
 License
 =======
