@@ -685,7 +685,7 @@ type of smooth fine Tofu.
   will need to rename their class.
 * A few changes to areas of code that may not have been thread-safe. 
 
-**2012-05-14** - Fixed a potential thread-safty issue that may occure when
+**2012-05-14** - Fixed a potential thread-safety issue that may occur when
   running with ``disableCaching`` set to true (i.e. development mode).
 
 
