@@ -136,7 +136,7 @@ public class NamespaceSet {
     }
 
     protected String render(String templateName, SoyMapData model, SoyMapData ijData, Locale locale) {
-    	SoyMsgBundle msgBundle = locale != null ? msgBundleCache.get(locale) : null;
+
     	Renderer renderer;
     	
         synchronized (cacheLock) {
@@ -150,6 +150,7 @@ public class NamespaceSet {
             renderer = tofu.newRenderer(templateName);
         }
 
+        final SoyMsgBundle msgBundle = locale != null ? msgBundleCache.get(locale) : null;
         return renderer.setData(model)
         		.setMsgBundle(msgBundle)
         		.setIjData(ijData)
