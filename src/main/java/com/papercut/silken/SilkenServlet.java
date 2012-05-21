@@ -273,7 +273,14 @@ public class SilkenServlet extends HttpServlet {
 
                 resp.setContentType(JS_CONTENT_TYPE);
                 resp.setCharacterEncoding(UTF8_ENCODING);
-                resp.setHeader("Cache-Control", "max-age=" + Long.toString(config.getJavaScriptCacheMaxAge()));
+                
+                // If we're in development mode, turn of JS browser caching as well.
+                if (config.isDisableCaching()) {
+                    resp.setHeader("Cache-Control", "no-cache");
+                } else {
+                    resp.setHeader("Cache-Control", "max-age=" + Long.toString(config.getJavaScriptCacheMaxAge()));
+                }
+                
                 resp.getWriter().print(templateRenderer.provideAsJavaScript(namespace, locale));
                 return;
             }

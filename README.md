@@ -640,6 +640,14 @@ the [Htmleasy Playground Project](http://code.google.com/p/htmleasy/downloads/li
 This is a pre-assembled Google App Engine Eclipse project demonstrating 
 Htmleasy and includes some Silken examples.
 
+##Miscellaneous Questions
+
+**Q:** What is the difference between Plovr and Silken?
+
+**A:** [Polvr](http://plovr.com/) dynamtically compiles JavaScript. Silken is
+designed to assist with the development of *both* the server-side Java and 
+client-side JavaScript Closure templates.
+
 ##Future
 
 Silken's development is supported by [PaperCut
