@@ -50,7 +50,14 @@ public class WebAppFileSetResolver implements FileSetResolver {
                 if (!WEB_APP_ROOT_VAR.equals(path)) {
                     base = path.substring(WEB_APP_ROOT_VAR.length());
                 }
-                resourcesList.addAll(listResourcesFromWebDir(base, namespace, suffix));
+                // Make sure we end in a slash
+                StringBuilder pathBuilder = new StringBuilder(base);
+                if (!base.endsWith("/")) {
+                    pathBuilder.append('/');
+                }
+                pathBuilder.append(namespace.replace(".", "/")).append('/');
+                
+                resourcesList.addAll(listResourcesFromWebDir(pathBuilder.toString(), suffix));
             }
 
             // We and return when we find our first match on out path.
@@ -79,22 +86,15 @@ public class WebAppFileSetResolver implements FileSetResolver {
 
         return resourceList;
     }
-
-    private List<URL> listResourcesFromWebDir(String base, String namespace, String suffix) {
-        Preconditions.checkNotNull(base, "No base defined");
-
-        // Make sure we end in a slash
-        StringBuilder path = new StringBuilder(base);
-        if (!base.endsWith("/")) {
-            path.append('/');
-        }
-        path.append(namespace.replace(".", "/")).append('/');
-
-        Set<String> files = (Set<String>) servletContext.getResourcePaths(path.toString());
-
+    
+    private List<URL> listResourcesFromWebDir(String path, String suffix) {
+        Set<String> files = (Set<String>) servletContext.getResourcePaths(path);
+        
         List<URL> resourceList = new ArrayList<URL>();
         for (String file : files) {
-            if (file.endsWith(suffix)) {
+            if (file.endsWith("/")) {
+                resourceList.addAll(listResourcesFromWebDir(file, suffix));
+            } else if (file.endsWith(suffix)) {
                 try {
                     resourceList.add(servletContext.getResource(file));
                 } catch (MalformedURLException e) {
@@ -104,5 +104,4 @@ public class WebAppFileSetResolver implements FileSetResolver {
         }
         return resourceList;
     }
-
 }
