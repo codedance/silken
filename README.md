@@ -395,8 +395,7 @@ outlined in the [Closure Templates
 documentation](http://code.google.com/closure/templates/docs/java_usage.html#globals)
 .  You may define globals in code by setting the
 ```compileTimeGlobalsProvider``` servlet init parameter to the fully qualified
-name of your class that implements
-```com.papercut.silken.CompileTimeGlobalsProvider```.
+name of your class that implements ```com.papercut.silken.CompileTimeGlobalsProvider```.
 
 ###Run-time Globals (Advanced):
 Run-time globals are available as Soy 
