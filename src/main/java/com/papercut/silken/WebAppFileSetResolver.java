@@ -93,12 +93,14 @@ public class WebAppFileSetResolver implements FileSetResolver {
         Set<String> files = (Set<String>) servletContext.getResourcePaths(path.toString());
 
         List<URL> resourceList = new ArrayList<URL>();
-        for (String file : files) {
-            if (file.endsWith(suffix)) {
-                try {
-                    resourceList.add(servletContext.getResource(file));
-                } catch (MalformedURLException e) {
-                    throw new RuntimeException("Unable to resolve resource at: " + file, e);
+        if (files != null) {
+            for (String file : files) {
+                if (file.endsWith(suffix)) {
+                    try {
+                        resourceList.add(servletContext.getResource(file));
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException("Unable to resolve resource at: " + file, e);
+                    }
                 }
             }
         }
