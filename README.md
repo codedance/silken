@@ -166,7 +166,7 @@ The general approach is as follows:
   [SpringMVC](http://static.springsource.org/spring/docs/2.0.x/reference/mvc.html) ).
 2. Your controller code generates the data parameters that will be consumed by 
    the template by constructing a "model".  e.g. it may query a database 
-   and make a ```Boat()``` POJO class.
+   and make a ```Boat()``` POJO/Bean class.
 3. The model is set as a [Servlet Request Attribute](http://docs.oracle.com/javaee/1.3/api/javax/servlet/ServletRequest.html).
 4. Finally, the controller code forwards/dispatches the request across to
    Silken and the template is rendered (returned to the browser).
@@ -224,7 +224,7 @@ public class BoatDisplayController {
 }
 ```
 
-In the example above the model (data passed to the template) is a POJO. The
+In the example above the model (data passed to the template) is a POJO/Bean. The
 template parameters are populated with data from the matching POJO getter
 names.
 
@@ -291,7 +291,7 @@ your key templates on startup.  These advanced features and others are
 discussed in detail below.
 
 ##Referencing Model Data
-Silken enhances Soy by supporting POJOs in the model data. POJOs are
+Silken enhances Soy by supporting POJOs (aka simple Java Beans) in the model data. POJOs are
 automatically converted to ```Maps``` before being passed to the template.
 POJOs may also be nested (referenced or set in  ```List``` elements).  For
 example, model data constructed like:
