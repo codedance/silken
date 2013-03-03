@@ -1,10 +1,10 @@
 package com.papercut.silken;
 
 import java.util.Locale;
-import java.util.Map;
 
-import com.google.common.base.Function;
-import com.google.common.collect.MapMaker;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.template.soy.data.SoyMapData;
 
 
@@ -19,9 +19,9 @@ import com.google.template.soy.data.SoyMapData;
 public class TemplateRenderer {
     private final Config config;
 
-    private final Map<String, NamespaceSet> namespaceSetsCache = new MapMaker().softValues().makeComputingMap(
-            new Function<String, NamespaceSet>() {
-                public NamespaceSet apply(String namespace) {
+    private final LoadingCache<String, NamespaceSet> namespaceSetsCache = CacheBuilder.newBuilder().softValues()
+            .build(new CacheLoader<String, NamespaceSet>() {
+                public NamespaceSet load(String namespace) {
                     return new NamespaceSet(namespace, config);
                 }
             });
@@ -47,7 +47,7 @@ public class TemplateRenderer {
 
         String namespace = templateName.substring(0, lastDot);
 
-        return namespaceSetsCache.get(namespace).render(templateName, model, ijData, locale);
+        return namespaceSetsCache.getUnchecked(namespace).render(templateName, model, ijData, locale);
     }
     
     /**
@@ -73,22 +73,23 @@ public class TemplateRenderer {
     }
 
     public String provideAsJavaScript(String namespace, Locale locale) {
-        return namespaceSetsCache.get(namespace).provideAsJavaScript(locale);
+        return namespaceSetsCache.getUnchecked(namespace).provideAsJavaScript(locale);
     }
 
     public void precompile(String namespace) {
         // Fetching our namespace will fire off a compile.
-        namespaceSetsCache.get(namespace);
+        namespaceSetsCache.getUnchecked(namespace);
     }
 
     public void flush(String namespace) {
-        if (namespaceSetsCache.containsKey(namespace)) {
-            namespaceSetsCache.get(namespace).flush();
+        NamespaceSet ns = namespaceSetsCache.getIfPresent(namespace);
+        if (ns != null) {
+            ns.flush();
         }
     }
 
     public void flushAll() {
-        for (NamespaceSet ns : namespaceSetsCache.values()) {
+        for (NamespaceSet ns : namespaceSetsCache.asMap().values()) {
             ns.flush();
         }
     }

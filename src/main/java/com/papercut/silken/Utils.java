@@ -1,7 +1,8 @@
 package com.papercut.silken;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -100,29 +101,27 @@ public class Utils {
     }
      
     /**
-     * Convert a Java POJO to a Map<String, Object>.
+     * Convert a Java POJO (aka Bean) to a Map<String, Object>.
      * @param pojo The Java pojo object with standard getters and setters.
      * @return Pojo data as a Map.
      */
     public static Map<String, ?> pojoToMap(Object pojo) {
 
         Map<String, Object> map = new HashMap<String, Object>();
+        
+        BeanInfo beanInfo;
+        try {
+            beanInfo = Introspector.getBeanInfo(pojo.getClass());
 
-        for (Method method : pojo.getClass().getDeclaredMethods()) {
-            if (Modifier.isPublic(method.getModifiers()) && method.getParameterTypes().length == 0
-                    && method.getReturnType() != void.class && method.getName().matches("^(get|is).+")) {
-                
-                String name = method.getName().replaceAll("^(get|is)", "");
-                name = Character.toLowerCase(name.charAt(0)) + (name.length() > 1 ? name.substring(1) : "");
-                
-                Object value;
-                try {
-                    value = method.invoke(pojo);
-                    map.put(name, value);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
+            PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+            for (PropertyDescriptor pd : propertyDescriptors) {
+                if (pd.getReadMethod() != null && !"class".equals(pd.getName())) {
+                    map.put(pd.getName(), pd.getReadMethod().invoke(pojo));
                 }
             }
+        
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         return map;
     }

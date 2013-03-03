@@ -352,34 +352,39 @@ public class SilkenServlet extends HttpServlet {
     }
     
     /**
-     * Advanced: A convenience method to get a reference to the currently loaded SilkenServlet. Use this method with
-     * care.  It assumes only one instance if the SilkenServlet is loaded in your server's context.
+     * Advanced: A convenience method to get a reference to the currently loaded
+     * SilkenServlet. Use this method with care. It assumes only one instance if
+     * the SilkenServlet is loaded in your server's context.
      * 
      * @return A reference to the currently loaded SilkenServlet.
      */
     public static SilkenServlet getInstance() {
-	if (s_instance == null) throw new IllegalStateException("The Silken Servlet is not yet initialized/loaded!");
-	return s_instance;
+        if (s_instance == null)
+            throw new IllegalStateException("The Silken Servlet is not yet initialized/loaded!");
+        return s_instance;
     }
-    
+
     /**
-     * Advanced: A convenience method to get a reference to the currently loaded SilkenServlet's Config class. Use this
-     * method with care.  Where possible obtain this reference from the "silken.config" servlet context attribute.
+     * Advanced: A convenience method to get a reference to the currently loaded
+     * SilkenServlet's Config class. Use this method with care. Where possible
+     * obtain this reference from the "silken.config" servlet context attribute.
      * 
      * @return A reference to the currently loaded SilkenServet's Config class.
      */
     public static Config getConfig() {
-	return getInstance().config;
+        return getInstance().config;
     }
-    
+
     /**
-     * Advanced: A convenience method to get a reference to the currently loaded TemplateRender. Use this method with 
-     * care.  Where possible obtain this reference from the "silken.templateRenderer" servlet context attribute.
+     * Advanced: A convenience method to get a reference to the currently loaded
+     * TemplateRender. Use this method with care. Where possible obtain this
+     * reference from the "silken.templateRenderer" servlet context attribute.
      * 
-     * @return A reference to the currently loaded TemplateRenderer hosted by Silken.
+     * @return A reference to the currently loaded TemplateRenderer hosted by
+     *         Silken.
      */
     public static TemplateRenderer getTemplateRenderer() {
-	return getInstance().templateRenderer;
+        return getInstance().templateRenderer;
     }
 
 }

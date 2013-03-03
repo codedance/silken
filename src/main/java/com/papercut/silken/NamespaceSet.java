@@ -5,11 +5,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
-import com.google.common.base.Function;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Lists;
-import com.google.common.collect.MapMaker;
 import com.google.template.soy.SoyFileSet;
 import com.google.template.soy.data.SoyMapData;
 import com.google.template.soy.jssrc.SoyJsSrcOptions;
@@ -42,25 +42,22 @@ public class NamespaceSet {
     private Object cacheLock = new Object();
 
     private SoyTofu tofu;
-
-    private final Map<Locale, SoyMsgBundle> msgBundleCache = new MapMaker().softValues().makeComputingMap(
-            new Function<Locale, SoyMsgBundle>() {
-                public SoyMsgBundle apply(Locale locale) {
+    
+    private final LoadingCache<Locale, SoyMsgBundle> msgBundleCache = CacheBuilder.newBuilder().softValues()
+            .build(new CacheLoader<Locale, SoyMsgBundle>() {
+                public SoyMsgBundle load(Locale locale) {
                     if (locale == null) {
                         return SoyMsgBundle.EMPTY;
                     }
-                    
+
                     final FileSetResolver fileSetResolver = config.getFileSetResolver();
                     final String searchPath = config.getSearchPath();
                     final List<URL> msgURLs = Lists.newArrayList();
                     SoyMsgBundleHandler msgBundleHandler = new SoyMsgBundleHandler(new XliffMsgPlugin());
 
-                    
                     // Try full form first, then drop back to country only.
-                    List<String> suffixes = Lists.newArrayList(
-                            locale.toString() + MSG_EXTENSION, 
-                            locale.getLanguage() + MSG_EXTENSION
-                            );
+                    List<String> suffixes = Lists.newArrayList(locale.toString() + MSG_EXTENSION, locale.getLanguage()
+                            + MSG_EXTENSION);
 
                     for (String suffix : suffixes) {
                         // Shared namespace
@@ -72,7 +69,7 @@ public class NamespaceSet {
                         List<URL> msgFiles = fileSetResolver.filesFromNamespace(config.getSearchPath(), namespace,
                                 suffix);
                         msgURLs.addAll(msgFiles);
-                        
+
                         if (msgURLs.size() > 0) {
                             break;
                         }
@@ -96,13 +93,14 @@ public class NamespaceSet {
                 }
             });
 
-    private final Map<Locale, String> javaScriptCache = new MapMaker().softValues().makeComputingMap(
-            new Function<Locale, String>() {
-                public String apply(Locale locale) {
+
+    private final LoadingCache<Locale, String> javaScriptCache = CacheBuilder.newBuilder().softValues()
+            .build(new CacheLoader<Locale, String>() {
+                public String load(Locale locale) {
                     SoyJsSrcOptions opts = new SoyJsSrcOptions();
                     // FUTURE: Allow configuration of opts via config?
                     List<String> js = generateSoyFileSet(JS_SOY_EXTENSION).compileToJsSrc(opts,
-                            msgBundleCache.get(locale));
+                            msgBundleCache.getUnchecked(locale));
 
                     StringBuilder sb = new StringBuilder();
                     for (String s : js) {
@@ -110,8 +108,9 @@ public class NamespaceSet {
                     }
                     return sb.toString();
                 }
+                
             });
-
+                    
     protected NamespaceSet(String namespace, Config config) {
         this.namespace = namespace;
         this.config = config;
@@ -124,14 +123,14 @@ public class NamespaceSet {
     private void compile() {
         // Compile and store (Note: We don't generate JS as it will be rare to
         // use this here)
-        tofu = generateSoyFileSet(SOY_EXTENSION).compileToJavaObj();
+        tofu = generateSoyFileSet(SOY_EXTENSION).compileToTofu();
     }
 
     protected void flush() {
         synchronized (cacheLock) {
             tofu = null;
-            msgBundleCache.clear();
-            javaScriptCache.clear();
+            msgBundleCache.invalidateAll();
+            javaScriptCache.invalidateAll();
         }
     }
 
@@ -146,11 +145,10 @@ public class NamespaceSet {
             if (tofu == null) {
                 compile();
             }
-            
             renderer = tofu.newRenderer(templateName);
         }
 
-        final SoyMsgBundle msgBundle = locale != null ? msgBundleCache.get(locale) : null;
+        final SoyMsgBundle msgBundle = locale != null ? msgBundleCache.getUnchecked(locale) : null;
         return renderer.setData(model)
         		.setMsgBundle(msgBundle)
         		.setIjData(ijData)
@@ -162,7 +160,7 @@ public class NamespaceSet {
             if (config.isDisableCaching()) {
                 flush();
             }
-            return javaScriptCache.get(locale);
+            return javaScriptCache.getUnchecked(locale);
         }
     }
 
