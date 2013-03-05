@@ -70,7 +70,7 @@ namespaces](http://code.google.com/closure/templates/docs/helloworld_java.html).
 
 ###Step 1: Setup the Silken Servlet
 
-Silken is a simple servlet and should be deployed on a /soy context (or
+Silken is a simple servlet and should be deployed on a ```/soy``` context (or
 equivalent).  After adding the required dependencies to your project (see
 installing), add the following to your ```web.xml``` file:
 
@@ -93,7 +93,7 @@ remainder of the documentation assumes the servlet is hosted here.
 Silken expects your soy templates to exist either under your web app root in
 ```/templates``` or ```/WEB-INF/templates```, or as resources on the classpath.
 All soy templates have a namespace and just like a Java Class file, should be
-stored under a directory structure matching the namespace.  There is a special
+stored under a directory structure *matching* the namespace.  There is a special
 namespace called ```shared```.  By default a template can call all other
 templates in its own namespace as well as templates contained in the
 ```shared``` namespace.
@@ -117,7 +117,7 @@ classpath in the corresponding namespace.  This approach allows you to locate
 classpath vs. web root is a personal choice - Silken will search both
 locations.  When in doubt, choose the web root - soy files contain
 presentation/views only, and the choice of web root makes this distinction
-clear (and the location is analogous to *.jsp files)
+clear, and the location is analogous to ```*.jsp``` files.
 
 ###Step 3: Write your templates
 
@@ -167,7 +167,7 @@ The general approach is as follows:
 2. Your controller code generates the data parameters that will be consumed by 
    the template by constructing a "model".  e.g. it may query a database 
    and make a ```Boat()``` POJO/Bean class.
-3. The model is set as a [Servlet Request Attribute](http://docs.oracle.com/javaee/1.3/api/javax/servlet/ServletRequest.html).
+3. The model is set as a [Servlet Request Attribute](http://docs.oracle.com/javaee/1.3/api/javax/servlet/ServletRequest.html) under a name ```model```.
 4. Finally, the controller code forwards/dispatches the request across to
    Silken and the template is rendered (returned to the browser).
 
@@ -176,8 +176,8 @@ attribute](http://docs.oracle.com/javaee/1.3/api/javax/servlet/ServletRequest.ht
 The model may either be:
 
 * A map of key-value pairs (```Map<String, ?>```)
-* A [POJO](http://en.wikipedia.org/wiki/Plain_Old_Java_Object] 
-  (nested POJOs are supported - see **Referencing Model Data** below)
+* A [POJO](http://en.wikipedia.org/wiki/Plain_Old_Java_Object] or Bean (nested 
+  POJOs are supported - see **Referencing Model Data** below)
 * An instance of
   [SoyMapData](http://closure-templates.googlecode.com/svn/trunk/javadoc-lite/com/google/template/soy/data/SoyMapData.html)
 (if you wish to couple your controller logic with Soy)
@@ -291,10 +291,10 @@ your key templates on startup.  These advanced features and others are
 discussed in detail below.
 
 ##Referencing Model Data
-Silken enhances Soy by supporting POJOs (aka simple Java Beans) in the model data. POJOs are
-automatically converted to ```Maps``` before being passed to the template.
-POJOs may also be nested (referenced or set in  ```List``` elements).  For
-example, model data constructed like:
+Silken enhances Soy by supporting POJOs (aka simple Java Beans) as model data. 
+POJOs are automatically converted to ```Maps``` before being passed to the 
+template.  POJOs may also be nested (referenced or as ```List``` elements).  
+For example, model data constructed like:
 
 ```java
 
@@ -324,7 +324,8 @@ Lead is also known as:
 ```
 
 See [Soy Expressions](http://code.google.com/closure/templates/docs/concepts.html#expressions)
-for more information on how to reference deep/nested data and list elements.
+for more information supported types and how to reference deep/nested data and 
+list elements.
 
 ##Message Bundles and Translation
 
@@ -335,11 +336,12 @@ translations](http://code.google.com/closure/templates/docs/translation.html).
 Silken offers a set of conventions to help with message file management.
 Message files should confirm to the following conventions:
 
-* Confirm to the naming convention ```*.[JavaLocaleString].xlf```  (e.g.
-  ```messages.pt_BR.xlf```)
-* Reside in the same namespace as the corresponding templates. Templates only
-  have access to message files contained within its own and the ```shared```
-  namespace.
+* Confirm to the file nameing convention ```*.[JavaLocaleString].xlf```  (e.g.
+  ```messages.pt_BR.xlf```, ```messages.fr_FR.xlf```)
+
+* Reside in the same namespace (directory) as the corresponding templates. 
+  Templates only have access to message files within its own namespace and the
+  ```shared``` namespace.
 
 For example:
 
@@ -352,11 +354,12 @@ For example:
     templates/products/messages.fr_FR.xlf
     templates/products/messages.de_DE.xlf
 
-Again a single messages file per namespace/locale is only a recommendation.
+Again a single messages file per namespace/locale is a recommendation only.
 Silken will endeavor to source all ```*.[locale].xlf``` files located within
-the namespace. If it can't match a file using the full language_COUNTRY format
-it will revert to searching at the wider language-only level (e.g. pt_BR will
-match ```messages-pt.xlf``` if ```message-pt_BR.xlf``` does not exist.
+the namespace. If it can't match a file using the full ```language_COUNTRY``` 
+format it will revert to searching at the wider language-only level 
+(e.g. pt_BR will match ```messages-pt.xlf``` if ```message-pt_BR.xlf``` does 
+not exist).
 
 ###Locale Selection
 By default, Silken selects the locale based on the *Accept-Language* header.
@@ -367,8 +370,8 @@ parameter to a new class that implements
 options below.)
 
 ##Management URLs
-
-Silken exposes the following management URLs that can assist with development and debugging:
+Silken exposes the following management URLs that can assist with development 
+and debugging:
 
 ```/soy/_precompile/[namespace]``` - 
 Pre-compiles all templates in the given [namespace] and returns 200 OK on success.
@@ -654,6 +657,9 @@ Software](http://www.papercut.com/) (makers of print management software) and
 is use in production.  It's been actively developed.  If you have any ideas for
 features please submit them as issues. A few ideas:
 
+* An implicit or explicit import system so it's easy to define dependencies
+  between namespaces.
+* Options to define deligate templates (via a resolver).
 * Maybe a way of publishing multiple namespaces into one JavaScript file.
 * Lock down management URLs to set client IPs.
 
