@@ -7,6 +7,7 @@ Silken Developer Readme
 * Spaces only - no tabs
 * 4 space indents
 * 120 line width
+* Target JDK 1.6 (same version as Closure Templates/Soy)
 
 
 ##Using Eclipse
@@ -26,3 +27,8 @@ Silken Developer Readme
 
 ```mvn deploy``` - Create maven repo structure at ${basedir}/../maven-repository
 
+
+## Rolling versions
+
+Edit project -> version in ```pom.xml```. Verisons should be in ISO date format. 
+Append -SNAPSHOT if it's not a public release.

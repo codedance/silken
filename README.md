@@ -70,9 +70,9 @@ namespaces](http://code.google.com/closure/templates/docs/helloworld_java.html).
 
 ###Step 1: Setup the Silken Servlet
 
-Silken is a simple servlet and should be deployed on a ```/soy``` context (or
+Silken is a simple servlet and should be deployed on a ``/soy`` context (or
 equivalent).  After adding the required dependencies to your project (see
-installing), add the following to your ```web.xml``` file:
+installing), add the following to your ``web.xml`` file:
 
     <servlet>
         <servlet-name>soy</servlet-name>
@@ -85,18 +85,18 @@ installing), add the following to your ```web.xml``` file:
         <url-pattern>/soy/*</url-pattern>
     </servlet-mapping>
 
-*Note:* Although any URL prefix is supported, ```/soy``` is recommended and the
+*Note:* Although any URL prefix is supported, ``/soy`` is recommended and the
 remainder of the documentation assumes the servlet is hosted here.
 
 ###Step 2: Create your directory or classpath structure
 
 Silken expects your soy templates to exist either under your web app root in
-```/templates``` or ```/WEB-INF/templates```, or as resources on the classpath.
+``/templates`` or ``/WEB-INF/templates``, or as resources on the classpath.
 All soy templates have a namespace and just like a Java Class file, should be
 stored under a directory structure *matching* the namespace.  There is a special
-namespace called ```shared```.  By default a template can call all other
+namespace called ``shared``.  By default a template can call all other
 templates in its own namespace as well as templates contained in the
-```shared``` namespace.
+``shared`` namespace.
 
 For example your project may look like:
 
@@ -111,22 +111,22 @@ For example your project may look like:
     templates/com/myorg/fully/qualified/misc.soy
 
 
-Alternatively you may choose to put your ```*.soy``` files as a resource on the
+Alternatively you may choose to put your ``*.soy`` files as a resource on the
 classpath in the corresponding namespace.  This approach allows you to locate
-```*.soy``` files relative to its supporting server-side code.  The merits of
+``*.soy`` files relative to its supporting server-side code.  The merits of
 classpath vs. web root is a personal choice - Silken will search both
 locations.  When in doubt, choose the web root - soy files contain
 presentation/views only, and the choice of web root makes this distinction
-clear, and the location is analogous to ```*.jsp``` files.
+clear, and the location is analogous to ``*.jsp`` files.
 
 ###Step 3: Write your templates
 
-Unlike Classes in ```*.java``` files, each ```*.soy``` file may contain more
+Unlike Classes in ``*.java`` files, each ``*.soy`` file may contain more
 than one template. The suggest practice is to place large templates (e.g.
 complete pages) in their own file, while smaller related templates (e.g. "a
 partial view" or section templates) in a single file together.
 
-Example: ```templates/products/summaryViews.soy```
+Example: ``templates/products/summaryViews.soy``
 
 ```
 {namespace products}
@@ -166,8 +166,8 @@ The general approach is as follows:
   [SpringMVC](http://static.springsource.org/spring/docs/2.0.x/reference/mvc.html) ).
 2. Your controller code generates the data parameters that will be consumed by 
    the template by constructing a "model".  e.g. it may query a database 
-   and make a ```Boat()``` POJO/Bean class.
-3. The model is set as a [Servlet Request Attribute](http://docs.oracle.com/javaee/1.3/api/javax/servlet/ServletRequest.html) under a name ```model```.
+   and make a ``Boat()`` POJO/Bean class.
+3. The model is set as a [Servlet Request Attribute](http://docs.oracle.com/javaee/1.3/api/javax/servlet/ServletRequest.html) under a name ``model``.
 4. Finally, the controller code forwards/dispatches the request across to
    Silken and the template is rendered (returned to the browser).
 
@@ -175,7 +175,7 @@ Data parameters (the model) are passed to the templates via a [request
 attribute](http://docs.oracle.com/javaee/1.3/api/javax/servlet/ServletRequest.html).
 The model may either be:
 
-* A map of key-value pairs (```Map<String, ?>```)
+* A map of key-value pairs (``Map<String, ?>``)
 * A [POJO](http://en.wikipedia.org/wiki/Plain_Old_Java_Object] or Bean (nested 
   POJOs are supported - see **Referencing Model Data** below)
 * An instance of
@@ -271,17 +271,17 @@ class SailBoat {
 }
 ```
 
-Or by passing a ```Map<String,?>``` like:
+Or by passing a ``Map<String,?>`` like:
 
 ```java
 ImmutableMap.of("name", "Australia II", "lengthOverAll", 19);
 ```
 
 *Note:* There is no relationship between the dispatch URL used to render a
-template, and the name or path of the ```*.soy``` file.  Although, like with
-public Classes and ```*.java``` files, there is often a one-to-one relationship
-between a template and a ```*.soy``` file, this is not always the case.
-Multiple templates can exist in the one ```*.soy``` file.
+template, and the name or path of the ``*.soy`` file.  Although, like with
+public Classes and ``*.java`` files, there is often a one-to-one relationship
+between a template and a ``*.soy`` file, this is not always the case.
+Multiple templates can exist in the one ``*.soy`` file.
 
 ###Step 5: Use advanced features as required (e.g. globals, translations, etc.)
 
@@ -292,8 +292,8 @@ discussed in detail below.
 
 ##Referencing Model Data
 Silken enhances Soy by supporting POJOs (aka simple Java Beans) as model data. 
-POJOs are automatically converted to ```Maps``` before being passed to the 
-template.  POJOs may also be nested (referenced or as ```List``` elements).  
+POJOs are automatically converted to ``Maps`` before being passed to the 
+template.  POJOs may also be nested (referenced or as ``List`` elements).  
 For example, model data constructed like:
 
 ```java
@@ -336,12 +336,12 @@ translations](http://code.google.com/closure/templates/docs/translation.html).
 Silken offers a set of conventions to help with message file management.
 Message files should confirm to the following conventions:
 
-* Confirm to the file nameing convention ```*.[JavaLocaleString].xlf```  (e.g.
-  ```messages.pt_BR.xlf```, ```messages.fr_FR.xlf```)
+* Confirm to the file nameing convention ``*.[JavaLocaleString].xlf``  (e.g.
+  ``messages.pt_BR.xlf``, ``messages.fr_FR.xlf``)
 
 * Reside in the same namespace (directory) as the corresponding templates. 
   Templates only have access to message files within its own namespace and the
-  ```shared``` namespace.
+  ``shared`` namespace.
 
 For example:
 
@@ -355,31 +355,31 @@ For example:
     templates/products/messages.de_DE.xlf
 
 Again a single messages file per namespace/locale is a recommendation only.
-Silken will endeavor to source all ```*.[locale].xlf``` files located within
-the namespace. If it can't match a file using the full ```language_COUNTRY``` 
+Silken will endeavor to source all ``*.[locale].xlf`` files located within
+the namespace. If it can't match a file using the full ``language_COUNTRY`` 
 format it will revert to searching at the wider language-only level 
-(e.g. pt_BR will match ```messages-pt.xlf``` if ```message-pt_BR.xlf``` does 
+(e.g. pt_BR will match ``messages-pt.xlf`` if ``message-pt_BR.xlf`` does 
 not exist).
 
 ###Locale Selection
 By default, Silken selects the locale based on the *Accept-Language* header.
 [ServletRequest.getLocale()](http://docs.oracle.com/javaee/1.4/api/javax/servlet/ServletRequest.html).
-You can change this behaviour by pointing the ```localeResolver``` servlet init
+You can change this behaviour by pointing the ``localeResolver`` servlet init
 parameter to a new class that implements
-```com.papercut.silken.LocaleResolver```.  (See Advanced Servlet configuration
+``com.papercut.silken.LocaleResolver``.  (See Advanced Servlet configuration
 options below.)
 
 ##Management URLs
 Silken exposes the following management URLs that can assist with development 
 and debugging:
 
-```/soy/_precompile/[namespace]``` - 
+``/soy/_precompile/[namespace]`` - 
 Pre-compiles all templates in the given [namespace] and returns 200 OK on success.
 
-```/soy/_flush/[namespace]``` - 
+``/soy/_flush/[namespace]`` - 
 Flushes any cached compiled templates in the given [namespace] forcing a recompile on next access.
 
-```/soy/_flushAll``` -
+``/soy/_flushAll`` -
 Flushes all cached compiled templates from all namespaces.
 
 ##Globals
@@ -392,18 +392,18 @@ always remain fixed. Reasons for using compile-time globals include:
 * A domain name (e.g. for absolute paths)
 * A variable for cache busting assets
 
-By default globals are sourced from a ```*.globals``` file located in the
-"shared" namespace.  This file should be in ```key = value``` format as
+By default globals are sourced from a ``*.globals`` file located in the
+"shared" namespace.  This file should be in ``key = value`` format as
 outlined in the [Closure Templates
 documentation](http://code.google.com/closure/templates/docs/java_usage.html#globals)
 .  You may define globals in code by setting the
-```compileTimeGlobalsProvider``` servlet init parameter to the fully qualified
-name of your class that implements ```com.papercut.silken.CompileTimeGlobalsProvider```.
+``compileTimeGlobalsProvider`` servlet init parameter to the fully qualified
+name of your class that implements ``com.papercut.silken.CompileTimeGlobalsProvider``.
 
 ###Run-time Globals (Advanced):
 Run-time globals are available as Soy 
 [Injected Data](http://code.google.com/closure/templates/docs/concepts.html#injecteddata)
-(```$ij.foo```).
+(``$ij.foo``).
 
 Reasons for using run-time globals include:
 
@@ -413,7 +413,7 @@ Reasons for using run-time globals include:
 Runtime globals can be set in one of two ways:
 
 * By setting *servlet request attribute* under the key "globals".
-* In code by implementing ```com.papercut.silken.RuntimeGlobalsResolver```.
+* In code by implementing ``com.papercut.silken.RuntimeGlobalsResolver``.
 
 A logical place to set your runtime globals would in a *Servlet Filter* or a 
 [JAX-RS PreProcessInterceptors](http://docs.jboss.org/resteasy/docs/2.3.1.GA/userguide/html/Interceptors.html#PreProcessInterceptors).
@@ -439,12 +439,12 @@ public class SetGlobalsFilter extends Filter {
 ```
 
 Runtime globals can also be defined in code by implementing 
-```com.papercut.silken.RuntimeGlobalsResolver```.  This interface gives you
-access to the ```HTTPServletRequest```.  To define an implementation, set the
-```runtimeGlobalsResolver``` servlet init parameter to a fully qualified name
-of your class that implements ```com.papercut.silken.RuntimeGlobalsResolver```.
+``com.papercut.silken.RuntimeGlobalsResolver``.  This interface gives you
+access to the ``HTTPServletRequest``.  To define an implementation, set the
+``runtimeGlobalsResolver`` servlet init parameter to a fully qualified name
+of your class that implements ``com.papercut.silken.RuntimeGlobalsResolver``.
 
-It is also possible to construct and inject an alternate ```GlobalsResolver```
+It is also possible to construct and inject an alternate ``GlobalsResolver``
 at runtime.  See *Injecting Configuration and Resolvers at Runtime* below.
 
 ##Publishing Templates as JavaScript
@@ -453,31 +453,31 @@ Closure Templates offer a unique advantage where the same template language can
 be used on both the client and the server.  Advanced web development
 technologies such as ajax, push state, and pjax make the re-use of the same
 template on both the client and the server very attractive.  Templates defined
-in a file with a ```*.js.soy``` extension (as apposed to just ```*.soy```) are
+in a file with a ``js.soy`` extension (as apposed to just ``soy`` are
 published as compiled JavaScript so they can included/consumed as a JavaScript 
 resources on the client.  The URL to request the compiled templates (templates 
-in ```*.js.soy``` files)  for a given namespace is:
+in ``js.soy`` files)  for a given namespace is:
 
     /soy/js/[serial]/[locale]/[namespace].js
 
 
 Where:
 
-* ```[serial]``` - a mandatory component that can be used for cache busting.
+* ``serial]`` - a mandatory component that can be used for cache busting.
  For example this may be a date or version number that increments every time a
  new version is deployed.
-* ```[locale]``` - an optional component that denotes the locale (in Java
+* ``locale]`` - an optional component that denotes the locale (in Java
   string format like pt_BR, en, de, etc.) used to compile the template.  If
 [locale] is not defined, the locale is selected using the accept-header or as
-implemented by the ```localeResolver``` (see below).
-* ```[namespace]``` - the namespace.  All templates defined in ```*.js.soy```
+implemented by the ``localeResolver`` (see below).
+* ``namespace]`` - the namespace.  All templates defined in ``js.soy``
   files will be rendered into the request.
 
-An example URL: ```http://myserver.com/soy/js/20120108/de/myproject.mytemplates.js```
+An example URL: ``http://myserver.com/soy/js/20120108/de/myproject.mytemplates.js``
    
 
 *Note:* JavaScript files are served up with a cache-control header setting the
-cache time to 30-days. Using the cache busting ```[serial]``` is the best way
+cache time to 30-days. Using the cache busting ``serial]`` is the best way
 to ensure browsers always pick up the latest version of your templates.
 
 ##Fast Edit->Refresh Development
@@ -486,9 +486,9 @@ To speed up template development and editing, Silken may be run with caching
 disabled ensuring templates are recompiled on every request.  Caching may be
 disabled with one of two ways:
 
-1. By setting a system variable ```silken.disableCaching```.  For example, by 
-   adding ```-Dsilken.disableCaching``` as a VM argument in your IDE launcher.
-2. By setting the servlet init-parameter ```disableCaching```.
+1. By setting a system variable ``silken.disableCaching``  For example, by 
+   adding ``-Dsilken.disableCaching`` as a VM argument in your IDE launcher.
+2. By setting the servlet init-parameter ``disableCaching``.
 
 *Note:* For obvious reasons, it's not a good idea to run in this mode in
 production!
@@ -502,10 +502,10 @@ servlet mapping. To install:
 ###Manual Install
 Add the
 [soy-[version].jar](http://code.google.com/p/closure-templates/downloads/list)
-and the ```silken-[version].jar``` file onto your project's class path. The
+and the ``silken-[version].jar`` file onto your project's class path. The
 latest version of Silken is:
 
-***[silken-2012-05-14.jar](https://github.com/downloads/codedance/silken/silken-2012-05-14.jar)***
+***[silken-2013-03-05.jar](https://raw.github.com/codedance/maven-repository/master/com/papercut/silken/silken/2013-03-05/silken-2013-03-05.jar)***
 
 ###Maven/Ivy Install
 
@@ -526,7 +526,7 @@ Artifact:
 ```
 <groupId>com.papercut.silken</groupId>
 <artifactId>silken</artifactId>
-<version>2012-05-14</version>
+<version>2012-03-05</version>
 ```
 
 
@@ -535,7 +535,7 @@ Artifact:
 ###Servlet Configuration Init Parameters
 
 Silken has the following servlet init parameters to support advanced
-configuration. They are usually defined in your ```web.xml``` file as follows,
+configuration. They are usually defined in your ``web.xml`` file as follows,
 however may also be set in code.
 
 ```
@@ -569,11 +569,11 @@ class name pointing to an implementation of *LocaleResolver*.  **Default**:
 *AcceptHeaderLocaleResolver*
  
 ```modelResolver``` - Customize the model resolver. Set to a fully qualified
-class name pointing to an implementation of ```ModelResolver```.  **Default**:
+class name pointing to an implementation of ``ModelResolver``.  **Default**:
 *RequestAttributeModelResolver*
  
 ```fileSetResolver``` - Customize the model resolver. Set to a fully qualified
-class name pointing to an implementation of ```FileSetResolver```. **Default**:
+class name pointing to an implementation of ``FileSetResolver``. **Default**:
 *WebAppFileSetResolver*
  
 ```compileTimeGlobalsProvider``` - Provide a custom map of Soy Template compile
@@ -586,8 +586,8 @@ into every template render. **Default**: *none*
 pre-compile.
  
 ```searchPath``` - Advanced: Modify the default search path used to locate
-```*.soy``` and associated files. Value is a colon separated path that may
-contain/reference ```$CLASSPATH``` and ```$WEBROOT```. **Default**:
+``*.soy`` and associated files. Value is a colon separated path that may
+contain/reference ``$CLASSPATH`` and ``$WEBROOT``. **Default**:
 *$CLASSPATH:$WEBROOT/templates:$WEBROOT/WEB-INF/templates*
 
 ##Injecting Configuration and Resolvers at Runtime (Advanced)
@@ -595,7 +595,7 @@ contain/reference ```$CLASSPATH``` and ```$WEBROOT```. **Default**:
 In addition to using Servlet Init Parameters, configuration can be modified in
 code at runtime. This includes modifying config options and also injecting
 alternate provider implementation.  To access the configuration at runtime,
-grab a reference to the Silken Config class via the ```silken.config``` servlet
+grab a reference to the Silken Config class via the ``silken.config`` servlet
 context attribute.  Example code:
 
 ```java
@@ -671,11 +671,17 @@ type of smooth fine Tofu.
 
 ##Release History
 
-**2011-12-20** - Initial public release.
+**2011-12-20** 
 
-**2012-01-05** - BUGFIX: Explicitly set the output character encoding to UTF-8.
+* Initial public release.
 
-**2012-02-23** - Nested POJO support. Globals are now set as ``$ij`` Injected Date.
+**2012-01-05**
+
+* BUGFIX: Explicitly set the output character encoding to UTF-8.
+
+**2012-02-23**
+
+* Nested POJO support. Globals are now set as ``$ij`` Injected Date.
 
 **2012-02-27** 
 
@@ -698,14 +704,24 @@ type of smooth fine Tofu.
   will need to rename their class.
 * A few changes to areas of code that may not have been thread-safe. 
 
-**2012-05-14** - Fixed a potential thread-safety issue that may occur when
+**2012-05-14** 
+
+* Fixed a potential thread-safety issue that may occur when
   running with ``disableCaching`` set to true (i.e. development mode).
+
+**2013-03-05**
+
+* Updated POM dependencies to bring in latest Closure/Soy version.
+* Code changes to leverage later version of Guava (e.g. Loading Cache)
+* Minor performance work: POJOs are now parsed using java.beans.Introspector
+  to benefit from its caching.
+* Documentation improvements
 
 
 License
 =======
 
-    (c) Copyright 2011-2012 PaperCut Software Int. Pty. Ltd. http://www.papercut.com/
+    (c) Copyright 2011-2013 PaperCut Software Int. Pty. Ltd. http://www.papercut.com/
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
