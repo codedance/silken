@@ -463,21 +463,21 @@ in ``js.soy`` files)  for a given namespace is:
 
 Where:
 
-* ``serial]`` - a mandatory component that can be used for cache busting.
+* ``[serial]`` - a _mandatory_ component that can be used for cache busting.
  For example this may be a date or version number that increments every time a
  new version is deployed.
-* ``locale]`` - an optional component that denotes the locale (in Java
+* ``[locale]`` - an _optional_ component that denotes the locale (in Java
   string format like pt_BR, en, de, etc.) used to compile the template.  If
 [locale] is not defined, the locale is selected using the accept-header or as
 implemented by the ``localeResolver`` (see below).
-* ``namespace]`` - the namespace.  All templates defined in ``js.soy``
+* ``[namespace]`` - the namespace.  All templates defined in ``js.soy``
   files will be rendered into the request.
 
 An example URL: ``http://myserver.com/soy/js/20120108/de/myproject.mytemplates.js``
    
 
 *Note:* JavaScript files are served up with a cache-control header setting the
-cache time to 30-days. Using the cache busting ``serial]`` is the best way
+cache time to 30-days. Using the cache busting ``[serial]`` is the best way
 to ensure browsers always pick up the latest version of your templates.
 
 ##Fast Edit->Refresh Development
