@@ -526,7 +526,7 @@ Artifact:
 ```
 <groupId>com.papercut.silken</groupId>
 <artifactId>silken</artifactId>
-<version>2012-03-05</version>
+<version>2013-03-05</version>
 ```
 
 
