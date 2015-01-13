@@ -590,6 +590,8 @@ pre-compile.
 contain/reference ``$CLASSPATH`` and ``$WEBROOT``. **Default**:
 *$CLASSPATH:$WEBROOT/templates:$WEBROOT/WEB-INF/templates*
 
+```moduleProvider``` - Provide a custom iterable of Guice modules used in generation. ***Default***: *none*
+
 ##Injecting Configuration and Resolvers at Runtime (Advanced)
 
 In addition to using Servlet Init Parameters, configuration can be modified in

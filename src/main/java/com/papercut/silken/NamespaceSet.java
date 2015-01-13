@@ -1,15 +1,11 @@
 package com.papercut.silken;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Lists;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.google.template.soy.SoyFileSet;
 import com.google.template.soy.data.SoyMapData;
 import com.google.template.soy.jssrc.SoyJsSrcOptions;
@@ -18,6 +14,12 @@ import com.google.template.soy.msgs.SoyMsgBundleHandler;
 import com.google.template.soy.tofu.SoyTofu;
 import com.google.template.soy.tofu.SoyTofu.Renderer;
 import com.google.template.soy.xliffmsgplugin.XliffMsgPlugin;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Stores fileset and cached tofu for a given namespace.
@@ -167,6 +169,8 @@ public class NamespaceSet {
     private SoyFileSet generateSoyFileSet(String suffix) {
         final FileSetResolver fileSetResolver = config.getFileSetResolver();
         final String searchPath = config.getSearchPath();
+
+        final Injector injector = Guice.createInjector();
 
         SoyFileSet.Builder builder = new SoyFileSet.Builder();
 
