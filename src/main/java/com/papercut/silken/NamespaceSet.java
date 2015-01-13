@@ -170,10 +170,13 @@ public class NamespaceSet {
         final FileSetResolver fileSetResolver = config.getFileSetResolver();
         final String searchPath = config.getSearchPath();
 
-        final Injector injector = Guice.createInjector();
-
-        SoyFileSet.Builder builder = new SoyFileSet.Builder();
-
+        final SoyFileSet.Builder builder;
+        if (config.getModuleProvider() != null) {
+            final Injector injector = Guice.createInjector(config.getModuleProvider().getModules());
+            builder = injector.getInstance(SoyFileSet.Builder.class);
+        } else {
+            builder = new SoyFileSet.Builder();
+        }
         boolean hasSetGlobals = false;
         
         // Use global compile time provider if set.
