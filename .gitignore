@@ -6,4 +6,6 @@
 /target
 /bin
 /.gradle
+/.idea
+/silken.iml
 /build

@@ -19,20 +19,19 @@
  */
 package com.papercut.silken;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Arrays;
-import java.util.Locale;
+import com.google.common.base.Strings;
+import com.google.template.soy.data.SoyMapData;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.common.base.Strings;
-import com.google.template.soy.data.SoyMapData;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Arrays;
+import java.util.Locale;
 
 /**
  * The main Silken servlet class. This is designed to be put on a url path like /soy.  Requests supported include:
@@ -81,7 +80,9 @@ import com.google.template.soy.data.SoyMapData;
  * searchPath - Advanced: Modify the default search path used to locate *.soy and associated files. Value is a semicolon
  * 				separated path that may contain/reference $CLASSPATH and $WEBROOT.
  * 				Default:  $CLASSPATH:$WEBROOT/templates:$WEBROOT/WEB-INF/templates
- * 
+ *
+ * moduleProvider - Provide a custom iterable of Guice modules used in generation. Default: none
+ *
  * @author chris
  */
 public class SilkenServlet extends HttpServlet {
@@ -183,6 +184,16 @@ public class SilkenServlet extends HttpServlet {
         String searchPath = servletConfig.getInitParameter("searchPath");
         if (searchPath != null) {
         	config.setSearchPath(searchPath);
+        }
+
+        final String moduleProvider = servletConfig.getInitParameter("moduleProvider");
+        if (moduleProvider != null) {
+            try {
+                Object provider = Class.forName(moduleProvider).newInstance();
+                config.setModuleProvider((ModuleProvider) provider);
+            } catch (Exception e) {
+                throw new ServletException("Unable to create moduleProvider", e);
+            }
         }
 
         // Store a reference config in our context so external code can modify.

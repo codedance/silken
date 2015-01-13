@@ -1,8 +1,8 @@
 package com.papercut.silken;
 
-import java.util.List;
-
 import com.google.common.collect.ImmutableList;
+
+import java.util.List;
 
 /**
  * This config class holds various global configuration. Multiple layers have a reference to this configuration
@@ -35,6 +35,8 @@ public class Config {
     private long lastChange;
 
     private boolean showStackTracesInErrors;
+
+    private ModuleProvider moduleProvider;
 
     public Config() {
         sharedNameSpaces = ImmutableList.of("shared");
@@ -136,4 +138,11 @@ public class Config {
         this.showStackTracesInErrors = showStackTracesInErrors;
     }
 
+    public synchronized ModuleProvider getModuleProvider() {
+        return moduleProvider;
+    }
+
+    public synchronized void setModuleProvider(final ModuleProvider moduleProvider) {
+        this.moduleProvider = moduleProvider;
+    }
 }
