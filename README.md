@@ -25,7 +25,7 @@ templates to be used on both client and server.
 
 Google Closure Templates does not provide a clear set of standards for
 organizing and structuring your project.  For example it provides little
-guidance on managing namepsaces, shared resource, file naming conventions,
+guidance on managing namespaces, shared resource, file naming conventions,
 caching and methods of integrating with existing tools.  Silken wraps Google
 Closure Templates in a nice consumable form.
 
@@ -604,7 +604,7 @@ import com.papercut.silken.Config;
 Config config = (Config) getServletContext().getAttribute("silken.config");
 config.setLocaleResolver(new MyLocaleResolver());
 ```
-A logical place to perform this initalization would be in a startup servlet's
+A logical place to perform this initialization would be in a startup servlet's
 init method. It is also possible to access the ``Config`` class using the
 convenience method: ``SilkenServlet.getConfig()``. 
 
