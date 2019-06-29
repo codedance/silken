@@ -15,7 +15,7 @@ for template management.
     <img src="http://farm6.staticflickr.com/5227/5776783857_02dbeb4d1b_m.jpg">
 </a>
 
-##Motivation
+## Motivation
 Google Closure Templates (aka Soy Templates) is a fantastic language neutral
 templating system.  It has an advanced syntax, great localization support,
 enforces good practice such as parameter documentation, and allows the same
@@ -39,7 +39,7 @@ can be quickly integrated into a new or existing Java web project via a simple
 servlet mapping.  See the installation section to find out more about manual
 setup or using via Maven/Ivy.
 
-##Silken's Benefits
+## Silken's Benefits
 
 * **Loose Coupling:** Clear separation between controller code, models and
   template rendering (views).
@@ -60,7 +60,7 @@ setup or using via Maven/Ivy.
 * **Simple Setup:** Simple Servlet configuration. Optional Maven/Ivy support.
 
 
-##How To Use
+## How To Use
 
 Before reading this section you should already be familiar with [Google Closure
 Template's
@@ -68,7 +68,7 @@ documentation](http://code.google.com/closure/templates/docs/overview.html) and
 the concept of [template
 namespaces](http://code.google.com/closure/templates/docs/helloworld_java.html).
 
-###Step 1: Setup the Silken Servlet
+### Step 1: Setup the Silken Servlet
 
 Silken is a simple servlet and should be deployed on a ``/soy`` context (or
 equivalent).  After adding the required dependencies to your project (see
@@ -88,7 +88,7 @@ installing), add the following to your ``web.xml`` file:
 *Note:* Although any URL prefix is supported, ``/soy`` is recommended and the
 remainder of the documentation assumes the servlet is hosted here.
 
-###Step 2: Create your directory or classpath structure
+### Step 2: Create your directory or classpath structure
 
 Silken expects your soy templates to exist either under your web app root in
 ``/templates`` or ``/WEB-INF/templates``, or as resources on the classpath.
@@ -119,7 +119,7 @@ locations.  When in doubt, choose the web root - soy files contain
 presentation/views only, and the choice of web root makes this distinction
 clear, and the location is analogous to ``*.jsp`` files.
 
-###Step 3: Write your templates
+### Step 3: Write your templates
 
 Unlike Classes in ``*.java`` files, each ``*.soy`` file may contain more
 than one template. The suggest practice is to place large templates (e.g.
@@ -146,7 +146,7 @@ Example: ``templates/products/summaryViews.soy``
 </tr>
 ```
 
-###Step 4: Rendering template in your controller logic
+### Step 4: Rendering template in your controller logic
 
 Templates are rendered by forwarding (dispatching) the request from your
 controller code across to the Silken Servlet.  The target/forwarded URL will be
@@ -283,14 +283,14 @@ public Classes and ``*.java`` files, there is often a one-to-one relationship
 between a template and a ``*.soy`` file, this is not always the case.
 Multiple templates can exist in the one ``*.soy`` file.
 
-###Step 5: Use advanced features as required (e.g. globals, translations, etc.)
+### Step 5: Use advanced features as required (e.g. globals, translations, etc.)
 
 On large projects you may need to consider translation/localization of
 messages, global variables (both run time and compile time) and pre-compiling
 your key templates on startup.  These advanced features and others are
 discussed in detail below.
 
-##Referencing Model Data
+## Referencing Model Data
 Silken enhances Soy by supporting POJOs (aka simple Java Beans) as model data. 
 POJOs are automatically converted to ``Maps`` before being passed to the 
 template.  POJOs may also be nested (referenced or as ``List`` elements).  
@@ -327,9 +327,9 @@ See [Soy Expressions](http://code.google.com/closure/templates/docs/concepts.htm
 for more information supported types and how to reference deep/nested data and 
 list elements.
 
-##Message Bundles and Translation
+## Message Bundles and Translation
 
-###Message Files
+### Message Files
 One of Google Closure Templates most powerful features is it's first-class
 support for [message
 translations](http://code.google.com/closure/templates/docs/translation.html).
@@ -361,7 +361,7 @@ format it will revert to searching at the wider language-only level
 (e.g. pt_BR will match ``messages-pt.xlf`` if ``message-pt_BR.xlf`` does 
 not exist).
 
-###Locale Selection
+### Locale Selection
 By default, Silken selects the locale based on the *Accept-Language* header.
 [ServletRequest.getLocale()](http://docs.oracle.com/javaee/1.4/api/javax/servlet/ServletRequest.html).
 You can change this behaviour by pointing the ``localeResolver`` servlet init
@@ -369,7 +369,7 @@ parameter to a new class that implements
 ``com.papercut.silken.LocaleResolver``.  (See Advanced Servlet configuration
 options below.)
 
-##Management URLs
+## Management URLs
 Silken exposes the following management URLs that can assist with development 
 and debugging:
 
@@ -382,9 +382,9 @@ Flushes any cached compiled templates in the given [namespace] forcing a recompi
 ``/soy/_flushAll`` -
 Flushes all cached compiled templates from all namespaces.
 
-##Globals
+## Globals
 
-###Compile-time Globals:
+### Compile-time Globals:
 Compile-time global variables are compiled into the template on first use and
 always remain fixed. Reasons for using compile-time globals include:
 
@@ -400,7 +400,7 @@ documentation](http://code.google.com/closure/templates/docs/java_usage.html#glo
 ``compileTimeGlobalsProvider`` servlet init parameter to the fully qualified
 name of your class that implements ``com.papercut.silken.CompileTimeGlobalsProvider``.
 
-###Run-time Globals (Advanced):
+### Run-time Globals (Advanced):
 Run-time globals are available as Soy 
 [Injected Data](http://code.google.com/closure/templates/docs/concepts.html#injecteddata)
 (``$ij.foo``).
@@ -447,7 +447,7 @@ of your class that implements ``com.papercut.silken.RuntimeGlobalsResolver``.
 It is also possible to construct and inject an alternate ``GlobalsResolver``
 at runtime.  See *Injecting Configuration and Resolvers at Runtime* below.
 
-##Publishing Templates as JavaScript
+## Publishing Templates as JavaScript
 
 Closure Templates offer a unique advantage where the same template language can
 be used on both the client and the server.  Advanced web development
@@ -480,7 +480,7 @@ An example URL: ``http://myserver.com/soy/js/20120108/de/myproject.mytemplates.j
 cache time to 30-days. Using the cache busting ``[serial]`` is the best way
 to ensure browsers always pick up the latest version of your templates.
 
-##Fast Edit->Refresh Development
+## Fast Edit->Refresh Development
 
 To speed up template development and editing, Silken may be run with caching
 disabled ensuring templates are recompiled on every request.  Caching may be
@@ -493,13 +493,13 @@ disabled with one of two ways:
 *Note:* For obvious reasons, it's not a good idea to run in this mode in
 production!
 
-##Installation
+## Installation
 
 Silken is a single zero-dependency JAR (other than Closure Templates of course)
 and can be quickly integrated into a new or existing Java web project via a
 servlet mapping. To install:
  
-###Manual Install
+### Manual Install
 Add the
 [soy-[version].jar](http://code.google.com/p/closure-templates/downloads/list)
 and the ``silken-[version].jar`` file onto your project's class path. The
@@ -507,7 +507,7 @@ latest version of Silken is:
 
 ***[silken-2013-03-05.jar](https://raw.github.com/codedance/maven-repository/master/com/papercut/silken/silken/2013-03-05/silken-2013-03-05.jar)***
 
-###Maven/Ivy Install
+### Maven/Ivy Install
 
 Silken (and its dependency Google Closure Templates) are hosted in a Maven
 repository.
@@ -532,7 +532,7 @@ Artifact:
 
 *Note:* Please check the repository for the latest version ID.
 
-###Servlet Configuration Init Parameters
+### Servlet Configuration Init Parameters
 
 Silken has the following servlet init parameters to support advanced
 configuration. They are usually defined in your ``web.xml`` file as follows,
@@ -590,7 +590,7 @@ pre-compile.
 contain/reference ``$CLASSPATH`` and ``$WEBROOT``. **Default**:
 *$CLASSPATH:$WEBROOT/templates:$WEBROOT/WEB-INF/templates*
 
-##Injecting Configuration and Resolvers at Runtime (Advanced)
+## Injecting Configuration and Resolvers at Runtime (Advanced)
 
 In addition to using Servlet Init Parameters, configuration can be modified in
 code at runtime. This includes modifying config options and also injecting
@@ -608,7 +608,7 @@ A logical place to perform this initalization would be in a startup servlet's
 init method. It is also possible to access the ``Config`` class using the
 convenience method: ``SilkenServlet.getConfig()``. 
 
-##Accessing the Template Renderer (Advanced)
+## Accessing the Template Renderer (Advanced)
 
 It's possible for non-servlet request code to access Silken's template
 rendering service. For example you may have a service that generates template
@@ -629,20 +629,20 @@ myEmailService.sendEmail(emailAddress, emailText);
 It is also possible to access the ``TemplateRenderer`` using the convenience
 method: ``SilkenServlet.getTemplateRenderer()``. 
 
-##Supported Environments
+## Supported Environments
 
 Silken will run in any standard Servlet hosting environment, including [Google
 App Engine](http://code.google.com/appengine/). Silken is written to work with
 the latest version of Soy Templates.
 
-##Demo
+## Demo
 
 To get a quick fee for Silken it is recommended that you download and play with
 the [Htmleasy Playground Project](http://code.google.com/p/htmleasy/downloads/list).
 This is a pre-assembled Google App Engine Eclipse project demonstrating 
 Htmleasy and includes some Silken examples.
 
-##Miscellaneous Questions
+## Miscellaneous Questions
 
 **Q:** What is the difference between Plovr and Silken?
 
@@ -650,7 +650,7 @@ Htmleasy and includes some Silken examples.
 designed to assist with the development of *both* the server-side Java and 
 client-side JavaScript Closure templates.
 
-##Future
+## Future
 
 Silken's development is supported by [PaperCut
 Software](http://www.papercut.com/) (makers of print management software) and
@@ -663,13 +663,13 @@ features please submit them as issues. A few ideas:
 * Maybe a way of publishing multiple namespaces into one JavaScript file.
 * Lock down management URLs to set client IPs.
 
-##Why is the project called "Silken"?
+## Why is the project called "Silken"?
 
 Google Closure Templates is also referred to as Soy Templates.  You'll find
 references to Soy and Tofu throughout the project's class names.  Silken is a
 type of smooth fine Tofu.
 
-##Release History
+## Release History
 
 **2011-12-20** 
 
